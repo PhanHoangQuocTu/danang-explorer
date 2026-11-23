@@ -1,0 +1,28 @@
+set -eu
+
+has_branch_update=false
+while read -r local_ref local_oid remote_ref _remote_oid; do
+  case "$remote_ref" in
+    refs/heads/*) ;;
+    *) continue ;;
+  esac
+  [ "$local_ref" != "(delete)" ] || continue
+
+  if [ "$local_oid" != "$(git rev-parse --verify HEAD)" ]; then
+    printf 'Check out the commit being pushed to %s before running the quality checks.\n' "$remote_ref" >&2
+    exit 1
+  fi
+  has_branch_update=true
+done
+
+[ "$has_branch_update" = true ] || exit 0
+
+worktree_status=$(git status --porcelain)
+if [ -n "$worktree_status" ]; then
+  printf 'Commit or stash local changes before pushing so the quality checks run against the commit being pushed.\n' >&2
+  exit 1
+fi
+
+pnpm lint
+pnpm format:check
+pnpm build

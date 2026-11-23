@@ -105,7 +105,8 @@ docker/                       # Dockerfile and nginx
 - Shared types live in `type.ts`, enums in `enum.ts`, constants in `const.ts`. A feature may have its own next to its code (`src/api/posts/type.ts`, `src/modules/Health/const.ts`).
 - Components `PascalCase.tsx`, hooks `useCamelCase.ts`, utils `lowercase.ts`. Tests go in `__tests__/`, stories sit next to the component.
 - Alias `@/*` maps to `src/*`.
-- Commits follow Conventional Commits. Husky runs lint-staged on commit and commitlint on the message.
+- Commits follow Conventional Commits. Husky runs Biome lint fixes and formatting on staged files, then checks the message with commitlint.
+- Before pushing a branch update, Husky runs `pnpm lint`, `pnpm format:check`, and `pnpm build`. Push from a clean checkout of the commit being sent.
 
 ## Translations (client and server)
 
