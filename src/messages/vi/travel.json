@@ -52,6 +52,22 @@
     "ratingHeading": "Đánh giá",
     "noOptions": "Chưa có giá trị"
   },
+  "navigation": "Điều hướng chính",
+  "areas": {
+    "title": "Khu vực",
+    "description": "Tìm địa điểm tại Đà Nẵng và vùng lân cận theo từng khu vực.",
+    "explore": "Xem khu vực này trong Khám phá",
+    "empty": "Khu vực này chưa có địa điểm trong cẩm nang.",
+    "detailMeta": "Xem các địa điểm tại {area} trong cẩm nang du lịch."
+  },
+  "tripIdeas": {
+    "title": "Gợi ý chuyến đi",
+    "description": "Xem gợi ý chuyến đi, lịch trình ba ngày và lưu ý du lịch từ cẩm nang.",
+    "quickTripIdeas": "Gợi ý chuyến đi nhanh",
+    "topPicks": "Địa điểm gợi ý",
+    "itinerary": "Lịch trình ba ngày",
+    "travelTips": "Lưu ý du lịch"
+  },
   "detail": {
     "breadcrumb": "Điều hướng trang",
     "home": "Trang chủ",

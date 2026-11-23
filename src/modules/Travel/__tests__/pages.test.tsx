@@ -57,7 +57,7 @@ describe('Home and Explore', () => {
     expect(new FormData(form).get('q')).toBe('Đà Nẵng');
     expect(screen.getByRole('link', { name: `Hải Châu, ${t('explore.results', { count: 2 })}` })).toHaveAttribute(
       'href',
-      '/explore?area=hai-chau'
+      '/areas/hai-chau'
     );
     expect(
       screen.getByRole('link', { name: `${t('categories.food-dining')}, ${t('explore.results', { count: 1 })}` })

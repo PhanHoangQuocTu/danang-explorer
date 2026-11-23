@@ -52,6 +52,22 @@
     "ratingHeading": "Rating",
     "noOptions": "No values available"
   },
+  "navigation": "Main navigation",
+  "areas": {
+    "title": "Areas",
+    "description": "Browse Đà Nẵng and nearby places by area.",
+    "explore": "Browse this area in Explore",
+    "empty": "There are no places listed in this area yet.",
+    "detailMeta": "Find places to visit in {area} in the travel guide."
+  },
+  "tripIdeas": {
+    "title": "Trip Ideas",
+    "description": "Explore trip ideas, a three-day itinerary, and travel tips from the guide.",
+    "quickTripIdeas": "Quick Trip Ideas",
+    "topPicks": "Top Picks",
+    "itinerary": "Three-day itinerary",
+    "travelTips": "Travel Tips"
+  },
   "detail": {
     "breadcrumb": "Breadcrumb",
     "home": "Home",

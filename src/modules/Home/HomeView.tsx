@@ -6,7 +6,7 @@ import { getPathname, Link } from '@/i18n/navigation';
 import type { ITravelDataset } from '@/lib/travel-data/type';
 
 import { getCanonicalAreas, getListingCounts, MAIN_CATEGORIES } from '../Travel/catalog';
-import { exploreHref } from '../Travel/navigation';
+import { areaHref, exploreHref } from '../Travel/navigation';
 import { SearchField } from '../Travel/SearchField';
 import { TravelState } from '../Travel/TravelState';
 import type { TravelViewProps } from '../Travel/type';
@@ -44,12 +44,17 @@ const HomeDiscovery = ({ t, locale, dataset }: TravelViewProps & { dataset: ITra
     {
       title: t('home.categories'),
       key: 'category',
-      rows: MAIN_CATEGORIES.map((id) => ({ id, name: t(`categories.${id}`), count: counts.categories.get(id) ?? 0 })),
+      rows: MAIN_CATEGORIES.map((id) => ({
+        id,
+        name: t(`categories.${id}`),
+        count: counts.categories.get(id) ?? 0,
+        href: exploreHref(new URLSearchParams({ category: id })),
+      })),
     },
     {
       title: t('home.areas'),
       key: 'area',
-      rows: areas.map(({ id, name }) => ({ id, name, count: counts.areas.get(id) ?? 0 })),
+      rows: areas.map(({ id, name }) => ({ id, name, count: counts.areas.get(id) ?? 0, href: areaHref(id) })),
     },
   ];
 
@@ -77,10 +82,10 @@ const HomeDiscovery = ({ t, locale, dataset }: TravelViewProps & { dataset: ITra
               {title}
             </h2>
             <ul className='divide-y border-y'>
-              {rows.map(({ id, name, count }) => (
+              {rows.map(({ id, name, count, href }) => (
                 <li key={id}>
                   <Link
-                    href={exploreHref(new URLSearchParams({ [key]: id }))}
+                    href={href}
                     prefetch={false}
                     aria-label={`${name}, ${t('explore.results', { count })}`}
                     className='flex min-h-12 items-center gap-3 rounded-sm px-2 py-2 font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring'
