@@ -1,5 +1,7 @@
 # Project architecture mapping
 
+This is the Phase 01 baseline. See the [current README](../../README.md) and [phase map](../implementation/phase-map.md) for the implemented product and current entry points.
+
 [Repository audit](repository-audit.md) · [Coding rules and dependencies](coding-rules-and-dependencies.md) · [Decisions and risks](decisions-and-risks.md) · [Phase map](../implementation/phase-map.md)
 
 ## Existing rendering and routing

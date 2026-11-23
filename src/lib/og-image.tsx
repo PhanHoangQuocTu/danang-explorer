@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 
+import { siteConfig } from '@/config/site';
 import { OG_IMAGE_SIZE } from '@/constants/const';
 
 interface CreateOgImageOptions {
@@ -38,7 +39,7 @@ export const createOgImage = ({ title, description }: CreateOgImageOptions) => {
             fontWeight: 700,
           }}
         >
-          F
+          {siteConfig.mark}
         </div>
       </div>
       <div style={{ fontSize: 72, fontWeight: 700, letterSpacing: -2, lineHeight: 1.1 }}>{title}</div>

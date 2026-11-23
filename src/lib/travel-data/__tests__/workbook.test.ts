@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { type WorkBook, utils, write } from 'xlsx';
+import { getInsightsMetrics } from '@/modules/Insights/metrics';
 import { COVER_SHEET, DETAIL_SHEETS, EDITORIAL_SHEET, LOC_HEADERS, LOC_SHEET } from '../const';
 import { buildTravelDataset } from '../workbook';
 
@@ -143,6 +144,25 @@ describe('approved public workbook export', () => {
       ['Chèo SUP / Kayak sông Hàn - biển', 'Sơn Trà / Hải Châu', 'Sơn Trà'],
       ['Rạp phim CGV / Lotte Cinema', 'Sơn Trà / Hải Châu', 'Sơn Trà'],
     ]);
+    const insights = getInsightsMetrics(listings, areas);
+    expect(insights.overview).toEqual({
+      total: 432,
+      active: 387,
+      areasRepresented: 8,
+      rated: 395,
+      noRating: 37,
+      coverage: (395 / 432) * 100,
+    });
+    expect(Object.fromEntries(insights.categories.map(({ id, count }) => [id, count]))).toEqual({
+      'sightseeing-nature': 102,
+      'food-dining': 160,
+      'cafe-checkin': 57,
+      entertainment: 62,
+      accommodation: 51,
+    });
+    expect(Object.fromEntries(insights.areas.map(({ id, count }) => [id, count]))).toEqual(areaCounts);
+    expect(insights.statuses.map(({ count }) => count)).toEqual([387, 24, 12, 9, 0]);
+    expect(insights.ratings.map(({ count }) => count)).toEqual([0, 6, 294, 95]);
     expect(areas).toHaveLength(8);
     expect(areas.every(({ description }) => description !== null)).toBe(true);
     expect(Object.values(editorial).map((entries) => entries.length)).toEqual([5, 11, 3, 2]);
@@ -205,6 +225,17 @@ describe('workbook failures', () => {
       ok: false,
       errors: [{ code: 'DUPLICATE_LOC_KEY', sheet: LOC_SHEET }],
     });
+  });
+
+  it('accepts an empty workbook with valid structure and no listing rows', () => {
+    expect(build(makeWorkbook([], []))).toMatchObject({
+      ok: true,
+      dataset: { listings: [], areaCounts: {} },
+    });
+  });
+
+  it('rejects an empty detail export with leftover LOC rows', () => {
+    expect(build(makeWorkbook([]))).toMatchObject({ ok: false, errors: [{ code: 'EMPTY_DATASET' }] });
   });
 
   it('rejects a workbook with no named detail rows', () => {

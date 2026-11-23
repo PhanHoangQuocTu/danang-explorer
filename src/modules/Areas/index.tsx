@@ -13,7 +13,7 @@ export const Areas = async ({ locale }: { locale: Locale }) => {
   const [{ t }, result] = await Promise.all([useTranslationsServer('travel', locale), loadTravelDataset()]);
   const dataset = result.ok && hasCanonicalAreaMetadata(result.dataset.areas) ? result.dataset : null;
   return (
-    <MainLayout>
+    <MainLayout showTravelRefresh>
       <AreasView t={t} locale={locale} mode='index' dataset={dataset} />
     </MainLayout>
   );
@@ -24,7 +24,7 @@ export const AreaDetail = async ({ locale, areaId }: { locale: Locale; areaId: s
   if (result.kind === 'not-found') notFound();
   const { t } = await useTranslationsServer('travel', locale);
   return (
-    <MainLayout>
+    <MainLayout showTravelRefresh>
       {result.kind === 'found' ? (
         <AreasView t={t} locale={locale} mode='detail' area={result.area} listings={result.listings} />
       ) : (

@@ -42,11 +42,11 @@ export const AreasView = (props: AreasViewProps) => {
                   <span className='min-w-0 flex-1'>
                     <span
                       lang='vi'
-                      className='wrap-anywhere block font-[family-name:Times_New_Roman,Times,serif] text-2xl'
+                      className='block font-[family-name:Times_New_Roman,Times,serif] text-2xl wrap-anywhere'
                     >
                       {areaName}
                     </span>
-                    <span className='mt-1 block text-muted-foreground text-sm tabular-nums'>
+                    <span className='mt-1 block text-sm text-muted-foreground tabular-nums'>
                       {t('explore.results', { count: counts.get(areaId) ?? 0 })}
                     </span>
                   </span>
@@ -66,7 +66,7 @@ export const AreasView = (props: AreasViewProps) => {
   return (
     <div className='min-w-0 space-y-8 pb-6'>
       <nav aria-label={t('detail.breadcrumb')}>
-        <ol className='flex flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground text-sm'>
+        <ol className='flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground'>
           <li>
             <Link prefetch={false} href={ROUTES.HOME} className='underline-offset-4 hover:underline'>
               {t('detail.home')}
@@ -87,12 +87,12 @@ export const AreasView = (props: AreasViewProps) => {
       <header className='space-y-4 border-b pb-7'>
         <h1
           lang='vi'
-          className='wrap-anywhere font-[family-name:Times_New_Roman,Times,serif] text-4xl tracking-tight sm:text-6xl'
+          className='font-[family-name:Times_New_Roman,Times,serif] text-4xl tracking-tight wrap-anywhere sm:text-6xl'
         >
           {area.areaName}
         </h1>
         {area.description && (
-          <p lang='vi' className='wrap-anywhere max-w-prose whitespace-pre-wrap text-muted-foreground leading-relaxed'>
+          <p lang='vi' className='max-w-prose leading-relaxed wrap-anywhere whitespace-pre-wrap text-muted-foreground'>
             {area.description}
           </p>
         )}

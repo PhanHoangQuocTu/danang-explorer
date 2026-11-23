@@ -64,7 +64,7 @@ const ExploreDiscovery = ({
       />
       <section aria-labelledby='explore-results' className='min-w-0 space-y-4'>
         <div className='flex flex-wrap items-center justify-between gap-3'>
-          <h2 id='explore-results' aria-live='polite' className='font-semibold text-lg tabular-nums'>
+          <h2 id='explore-results' aria-live='polite' className='text-lg font-semibold tabular-nums'>
             {t('explore.results', { count: results.total })}
           </h2>
           <nav
@@ -85,7 +85,7 @@ const ExploreDiscovery = ({
         {dataset.listings.length > 0 && results.total === 0 && (
           <div className='space-y-2 rounded-xl border bg-muted/30 p-6 sm:p-8'>
             <p className='font-medium'>{t('explore.empty')}</p>
-            <p className='text-muted-foreground text-sm'>{t('explore.emptyHint')}</p>
+            <p className='text-sm text-muted-foreground'>{t('explore.emptyHint')}</p>
             <Button asChild variant='outline' className='mt-2'>
               <Link href={clearHref} prefetch={false}>
                 {t('explore.clear')}
@@ -98,7 +98,7 @@ const ExploreDiscovery = ({
             aria-label={t('explore.pagination')}
             className='flex flex-wrap items-center justify-between gap-3 border-t pt-4'
           >
-            <p aria-current='page' className='text-muted-foreground text-sm tabular-nums'>
+            <p aria-current='page' className='text-sm text-muted-foreground tabular-nums'>
               {t('explore.page', { page: results.page, total: results.pageCount })}
             </p>
             <div className='flex gap-2'>

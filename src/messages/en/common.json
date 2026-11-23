@@ -21,11 +21,6 @@
     "empty": "Nothing here yet",
     "error": "Something went wrong"
   },
-  "home": {
-    "title": "Next.js frontend boilerplate",
-    "description": "Next.js 16, React 19, Tailwind v4, shadcn/ui, next-intl, TanStack Query and Zustand. Ready for your next project.",
-    "openHealth": "Open health page"
-  },
   "notFound": {
     "title": "Page not found",
     "description": "The page you are looking for does not exist or has been moved."

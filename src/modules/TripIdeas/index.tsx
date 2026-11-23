@@ -10,7 +10,7 @@ export const TripIdeas = async ({ locale }: { locale: Locale }) => {
   const [{ t }, result] = await Promise.all([useTranslationsServer('travel', locale), loadTravelDataset()]);
   const editorial = result.ok && hasCompleteEditorial(result.dataset.editorial) ? result.dataset.editorial : null;
   return (
-    <MainLayout>
+    <MainLayout showTravelRefresh>
       <TripIdeasView t={t} editorial={editorial} />
     </MainLayout>
   );

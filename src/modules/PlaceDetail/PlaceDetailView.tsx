@@ -19,7 +19,7 @@ const Facts = ({ entries }: { entries: readonly (readonly [string, string])[] })
   <dl className='divide-y'>
     {entries.map(([label, value]) => (
       <div key={label} className='space-y-1 py-3 first:pt-0 last:pb-0'>
-        <dt className='font-medium text-sm'>{label}</dt>
+        <dt className='text-sm font-medium'>{label}</dt>
         <dd lang='vi' className={cn(sourceText, 'text-muted-foreground')}>
           {value}
         </dd>
@@ -31,7 +31,7 @@ const Facts = ({ entries }: { entries: readonly (readonly [string, string])[] })
 const TextSection = ({ id, title, value }: { id: string; title: string; value: string | null }) =>
   value ? (
     <section aria-labelledby={id} className='space-y-3 border-t pt-6'>
-      <h2 id={id} className='font-semibold text-2xl tracking-tight sm:text-3xl'>
+      <h2 id={id} className='text-2xl font-semibold tracking-tight sm:text-3xl'>
         {title}
       </h2>
       <p lang='vi' className={cn(sourceText, 'max-w-prose leading-relaxed')}>
@@ -60,7 +60,7 @@ export const PlaceDetailView = ({ t, locale, listing }: TravelViewProps & { list
 
   return (
     <article className='min-w-0 space-y-8 pb-8 sm:space-y-10'>
-      <nav aria-label={t('detail.breadcrumb')} className='text-muted-foreground text-sm'>
+      <nav aria-label={t('detail.breadcrumb')} className='text-sm text-muted-foreground'>
         <ol className='flex flex-wrap items-center gap-x-2 gap-y-1'>
           <li>
             <Link
@@ -92,17 +92,17 @@ export const PlaceDetailView = ({ t, locale, listing }: TravelViewProps & { list
 
       <header className='space-y-4 border-b pb-7 sm:pb-9'>
         <div className='flex flex-wrap items-center gap-3'>
-          <p className='font-medium text-muted-foreground text-sm'>{t(`categories.${listing.mainCategory}`)}</p>
+          <p className='text-sm font-medium text-muted-foreground'>{t(`categories.${listing.mainCategory}`)}</p>
           <ListingStatusBadge t={t} status={listing.status} />
         </div>
         <h1
           lang='vi'
-          className='wrap-anywhere max-w-4xl font-serif text-4xl leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl'
+          className='max-w-4xl font-serif text-4xl leading-[1.08] tracking-tight wrap-anywhere sm:text-5xl lg:text-6xl'
         >
           {listing.name}
         </h1>
         {area && (
-          <p className='text-muted-foreground text-sm'>
+          <p className='text-sm text-muted-foreground'>
             <span className='sr-only'>{t('explore.area')} </span>
             <span lang='vi' className={sourceText}>
               {area}
@@ -117,7 +117,7 @@ export const PlaceDetailView = ({ t, locale, listing }: TravelViewProps & { list
             aria-labelledby='place-facts'
             className='min-w-0 space-y-4 self-start rounded-xl border bg-muted/30 p-5 sm:p-6 lg:col-start-2 lg:row-start-1'
           >
-            <h2 id='place-facts' className='font-semibold text-2xl tracking-tight'>
+            <h2 id='place-facts' className='text-2xl font-semibold tracking-tight'>
               {t('detail.facts')}
             </h2>
             <ListingMapsLink listing={listing} t={t} prominent />
@@ -129,7 +129,7 @@ export const PlaceDetailView = ({ t, locale, listing }: TravelViewProps & { list
           <TextSection id='place-notes' title={t('detail.notes')} value={listing.notesText} />
           {(profileFacts.length > 0 || listing.visitProfileRaw) && (
             <section aria-labelledby='place-profile' className='space-y-4 border-t pt-6'>
-              <h2 id='place-profile' className='font-semibold text-2xl tracking-tight sm:text-3xl'>
+              <h2 id='place-profile' className='text-2xl font-semibold tracking-tight sm:text-3xl'>
                 {t('detail.profile')}
               </h2>
               {profileFacts.length > 0 ? (

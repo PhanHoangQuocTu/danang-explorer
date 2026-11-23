@@ -5,11 +5,18 @@ export const ROUTES = {
   AREAS: '/areas',
   AREA_DETAIL: '/areas/:areaId',
   TRIP_IDEAS: '/trip-ideas',
+  INSIGHTS: '/insights',
   HEALTH: '/health',
 } as const;
 
 /** Routes listed in `sitemap.xml`. Operational pages (e.g. health) are left out on purpose. */
-export const INDEXABLE_ROUTES: string[] = [ROUTES.HOME, ROUTES.EXPLORE, ROUTES.AREAS, ROUTES.TRIP_IDEAS];
+export const INDEXABLE_ROUTES: string[] = [
+  ROUTES.HOME,
+  ROUTES.EXPLORE,
+  ROUTES.AREAS,
+  ROUTES.TRIP_IDEAS,
+  ROUTES.INSIGHTS,
+];
 
 /**
  * Replace `:param` placeholders of a route.

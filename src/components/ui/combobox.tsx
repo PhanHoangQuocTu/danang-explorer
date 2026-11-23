@@ -136,7 +136,7 @@ function ComboboxItem({ className, children, ...props }: ComboboxPrimitive.Item.
         data-slot='combobox-item-indicator'
         render={<span className='pointer-events-none absolute right-2 flex size-4 items-center justify-center' />}
       >
-        <CheckIcon className='pointer-events-none pointer-coarse:size-5 size-4' />
+        <CheckIcon className='pointer-events-none size-4 pointer-coarse:size-5' />
       </ComboboxPrimitive.ItemIndicator>
     </ComboboxPrimitive.Item>
   );

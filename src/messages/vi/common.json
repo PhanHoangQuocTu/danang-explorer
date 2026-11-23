@@ -21,11 +21,6 @@
     "empty": "Chưa có dữ liệu",
     "error": "Đã có lỗi xảy ra"
   },
-  "home": {
-    "title": "Next.js frontend boilerplate",
-    "description": "Next.js 16, React 19, Tailwind v4, shadcn/ui, next-intl, TanStack Query và Zustand. Sẵn sàng cho dự án tiếp theo của bạn.",
-    "openHealth": "Mở trang health"
-  },
   "notFound": {
     "title": "Không tìm thấy trang",
     "description": "Trang bạn tìm không tồn tại hoặc đã được di chuyển."

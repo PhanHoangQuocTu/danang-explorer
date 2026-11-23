@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { siteConfig } from '@/config/site';
 
 export const size = { width: 180, height: 180 };
 export const contentType = 'image/png';
@@ -18,7 +19,7 @@ export default function AppleIcon() {
         fontWeight: 700,
       }}
     >
-      F
+      {siteConfig.mark}
     </div>,
     size
   );

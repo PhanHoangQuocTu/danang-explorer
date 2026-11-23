@@ -149,13 +149,9 @@
         "noImgElement": "warn"
       },
       "nursery": {
-        "useSortedClasses": {
+        "useTailwindSortedClasses": {
           "level": "error",
-          "fix": "safe",
-          "options": {
-            "attributes": ["className"],
-            "functions": ["cx"]
-          }
+          "fix": "safe"
         }
       }
     }
@@ -344,5 +340,11 @@
         }
       }
     }
-  ]
+  ],
+  "tailwind": {
+    "stylesheet": "./src/styles/globals.css",
+    "attributes": ["className"],
+    "mergeFunctions": ["cx"],
+    "variantFunctions": []
+  }
 }

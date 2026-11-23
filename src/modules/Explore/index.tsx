@@ -17,7 +17,7 @@ export const ExploreContent = async ({ t, locale, query }: TravelViewProps & { q
 export const Explore = async ({ locale, query }: { locale: Locale; query: URLSearchParams }) => {
   const { t } = await useTranslationsServer('travel', locale);
   return (
-    <MainLayout>
+    <MainLayout showTravelRefresh>
       <Suspense key={query.toString()} fallback={<TravelState t={t} state='loading' />}>
         <ExploreContent t={t} locale={locale} query={query} />
       </Suspense>

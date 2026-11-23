@@ -15,7 +15,7 @@ export const ProxyExampleCard = () => {
   const renderContent = () => {
     if (isLoading) return Array.from({ length: 3 }, (_, idx) => <Skeleton key={idx} className='h-5 w-full' />);
     if (error) return <ErrorState title={error.message} />;
-    if (!data?.length) return <p className='text-muted-foreground text-sm'>{t('empty')}</p>;
+    if (!data?.length) return <p className='text-sm text-muted-foreground'>{t('empty')}</p>;
 
     return (
       <ul className='divide-y text-sm'>
@@ -37,7 +37,7 @@ export const ProxyExampleCard = () => {
       </CardHeader>
       <CardContent className='space-y-3'>
         {renderContent()}
-        <p className='text-muted-foreground text-xs'>{t('rewriteHint')}</p>
+        <p className='text-xs text-muted-foreground'>{t('rewriteHint')}</p>
       </CardContent>
     </Card>
   );

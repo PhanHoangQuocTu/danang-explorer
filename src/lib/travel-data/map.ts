@@ -94,6 +94,13 @@ interface ILocRecord {
   statusRaw: string | null;
 }
 
+const hasLocDataRows = (sheet: IWorkbookSheet) => {
+  for (let row = LOC_HEADER_ROW + 1; row <= sheet.rowCount; row++) {
+    if (rowCells(sheet, row, LOC_HEADERS.length).some((cell) => cell?.hyperlink || text(cell) !== null)) return true;
+  }
+  return false;
+};
+
 const readLocIndex = (sheet: IWorkbookSheet, diagnostics: ITravelDiagnostics, errors: ITravelError[]) => {
   const index = new Map<string, ILocRecord>();
 
@@ -310,7 +317,9 @@ export const mapTravelWorkbook = (input: IWorkbookInput): TravelWorkbookResult =
   }
 
   diagnostics.acceptedRows = listings.length;
-  if (listings.length === 0) errors.push({ code: 'EMPTY_DATASET', message: 'Workbook has no valid named listings.' });
+  if (listings.length === 0 && (diagnostics.parsedRows > 0 || hasLocDataRows(loc))) {
+    errors.push({ code: 'EMPTY_DATASET', message: 'Workbook has data rows but no valid named listings.' });
+  }
   if (errors.length) return { ok: false, errors, diagnostics };
 
   return {

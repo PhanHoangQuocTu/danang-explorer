@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an improvement to the boilerplate.
+description: Suggest an improvement to the Đà Nẵng Travel Guide.
 body:
   - type: textarea
     id: problem

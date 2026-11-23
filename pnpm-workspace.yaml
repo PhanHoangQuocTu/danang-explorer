@@ -1,6 +1,9 @@
 # Dependency build scripts. Only list packages that must run an install script.
 # `false` = reviewed and intentionally skipped (their native prebuilds / JS fallbacks are enough).
 allowBuilds:
-  '@parcel/watcher': false
-  '@swc/core': false
+  "@parcel/watcher": false
+  "@swc/core": false
   esbuild: false
+overrides:
+  # Remove advisories in Storybook's optional react-docgen-typescript plugin.
+  "@joshwooding/vite-plugin-react-docgen-typescript>glob": 14.0.6

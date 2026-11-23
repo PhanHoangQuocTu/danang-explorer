@@ -89,17 +89,17 @@ export const ExploreResults = ({ t, locale, listings, view }: ExploreResultsProp
             )}
           >
             <div className='min-w-0 space-y-2'>
-              <p className='font-medium text-muted-foreground text-xs'>{t(`categories.${listing.mainCategory}`)}</p>
-              <h3 className='wrap-anywhere font-semibold text-lg leading-tight'>
+              <p className='text-xs font-medium text-muted-foreground'>{t(`categories.${listing.mainCategory}`)}</p>
+              <h3 className='text-lg leading-tight font-semibold wrap-anywhere'>
                 <ListingNameLink id={listing.id} name={listing.name} />
               </h3>
               {(listing.areaName || listing.address) && (
-                <p lang='vi' className='wrap-anywhere text-muted-foreground text-sm'>
+                <p lang='vi' className='text-sm wrap-anywhere text-muted-foreground'>
                   {[listing.areaName, listing.address].filter(Boolean).join(' · ')}
                 </p>
               )}
               {view === 'grid' && listing.highlightsText && (
-                <p lang='vi' className='wrap-anywhere line-clamp-2 text-muted-foreground text-sm'>
+                <p lang='vi' className='line-clamp-2 text-sm wrap-anywhere text-muted-foreground'>
                   {listing.highlightsText}
                 </p>
               )}

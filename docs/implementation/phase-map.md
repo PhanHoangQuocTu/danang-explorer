@@ -1,34 +1,18 @@
 # Implementation phase map
 
-[Phase 01 specification](phases/phase-01-codebase-rules-architecture-mapping.md) · [Audit](../architecture/repository-audit.md) · [Architecture](../architecture/project-architecture.md) · [Rules](../architecture/coding-rules-and-dependencies.md) · [Decisions and risks](../architecture/decisions-and-risks.md)
+[Repository audit](../architecture/repository-audit.md) · [Architecture](../architecture/project-architecture.md) · [Rules](../architecture/coding-rules-and-dependencies.md) · [Decisions and risks](../architecture/decisions-and-risks.md) · [Release runbook](phase-08-release-runbook.md)
 
-The agreed project has eight phases. The available product context confirms the names and intent of phases 01–03. The later workstreams below express dependencies; their numbering and scope await confirmation.
+This status reflects the `danang-explorer` checkout with `main` at `0355931` and the local Phase 07–08 working tree. Evidence comes from the source, commit history, offline regression and local browser runs.
 
-| Phase | Entry | Exit and decision gates |
+| Phase | Implementation and evidence | Status |
 | --- | --- | --- |
-| 01 · Codebase Rules & Architecture Mapping | Local checkout, instruction files and confirmed product context available. | Evidence-backed repo audit, architecture, coding rules, dependencies, ADRs, risks, phase gates and actual check results. The repository map can support Phase 02 planning with the audit's baseline check limitations recorded. |
-| 02 · Data Foundation & Workbook Mapping | Phase 01 map and coding rules. Obtain an authoritative, representative workbook fixture before field-level proof. | Verify actual fields and hyperlink extraction, normalize the 11 detail sheets and supporting sheets as required by the approved mapping, and prove source identity, LOC area/status, data fidelity and invalid-input behavior with tests. The 432 baseline applies only to its corresponding snapshot. Inspect/reuse first, then obtain explicit approval before installing a required parser dependency. |
-| 03 · Google Drive Connector | Phase 02's validated input/output contract and a public workbook reference. | Verify anonymous retrieval of real XLSX bytes in the target runtime, including unavailable/invalid source handling and measured resource costs. Record deployment settings and any approved config changes before relying on them. |
-| 04 | Pending confirmation | Exact phase name, scope and gates pending. |
-| 05 | Pending confirmation | Exact phase name, scope and gates pending. |
-| 06 | Pending confirmation | Exact phase name, scope and gates pending. |
-| 07 | Pending confirmation | Exact phase name, scope and gates pending. |
-| 08 | Pending confirmation | Exact phase name, scope and gates pending. |
+| [01 · Codebase audit](phases/phase-01-codebase-rules-architecture-mapping.md) | Repository audit and architecture decisions are in `docs/architecture/`. | On main |
+| [02 · Data foundation](phases/phase-02-data-foundation.md) | `buildTravelDataset()` parses the approved XLSX fixture. Regression covers the exact LOC join, stable identity, 432 records, 395 usable ratings, 424 Maps targets, and five same-name groups across sheets. | On main |
+| [03 · Google Drive connector](phases/phase-03-google-drive-connector.md) | `downloadLatestTravelWorkbook()` and `fetchLatestTravelDataset()` run on the server. A controlled local live read returned 432 records. Offline tests cover redirects, malformed responses, size limits, timeouts and upstream errors. | On main |
+| [04 · Home and Explore](phases/phase-04-home-and-explore.md) | Localized pages use the shared server loader. Regression covers accent-insensitive search, filters, Grid/List/Table and 24 records per page. Browser QA confirmed search and Explore history. | On main |
+| [05 · Place Detail](phases/phase-05-place-detail.md) | Exact listing ID resolves the detail view. Tests cover same-name entries, raw notes, localized labels, Maps links and source errors distinct from 404. | On main |
+| [06 · Areas and Trip Ideas](phases/phase-06-areas-and-trip-ideas.md) | Eight canonical areas, runtime counts and the four editorial groups are verified with offline tests and browser QA. | On main |
+| [07 · Public Travel Insights](phases/phase-07-public-travel-insights.md) | Selector totals, rating boundaries, Top Rated and text equivalents are verified offline. Chrome verified the four charts and responsive layout in both locales. | Local implementation verified |
+| [08 · Integration, QA and deployment](phases/phase-08-integration-qa-deployment.md) | Manual Update, fixture-change refresh, production-mode SEO and local integration passed. The runbook records the remaining Storybook and platform gates. | Partially ready |
 
-## Cross-phase implementation checklist
-
-- [x] 01.1 Verify repository identity, refs, tree, instruction files and existing docs.
-- [x] 01.2 Verify runtime, scripts, manifest, lockfile and capability gaps.
-- [x] 01.3 Trace routes, rendering, API, state, i18n, UI, QA, security and deployment files.
-- [x] 01.4 Map approved requirements to future extension points.
-- [x] 01.5 Record ADRs, risks, owners and open decisions.
-- [x] 01.6 Present the documentation plan before edits and confirm output paths are new.
-- [x] 01.7 Write the five Phase 01 deliverables.
-- [x] 01.8 Attempt required baseline commands and review Markdown links and Git change scope. Baseline blockers are recorded in the audit.
-- [ ] Phase 02 verifies the workbook and normalized contract with fixtures. Any required dependency is subject to ADR-009.
-- [ ] Phase 03 uses the normalized contract and validates the public workbook connector.
-- [ ] Later sync work depends on the validated workbook contract and connector. Evaluate authoritative refresh coordination and caching before exposing manual updates.
-- [ ] Later UI work depends on normalized data contracts. Obtain approved screen scope and the Place Detail Option A reference before implementing those surfaces. Verify the Vietnamese default, UI-only localization, Editorial direction, Grid, All and simple map.
-- [ ] Deployment verification follows the relevant connector, sync and UI work. Measure the selected Vercel runtime, verify production SEO and env, and run applicable automated and browser gates.
-
-The Phase 02 map and rules are ready for use. Field-level tests require the workbook, and adding a required parser package or any other dependency requires explicit approval. The existing type-check and formatting failures should be resolved in the verification environment before claiming a clean implementation baseline.
+The local candidate passed lint, formatting, type checks, 197 offline tests and a production build. Storybook builds successfully and still reports a plugin timing warning on Node 22. Preview and production promotion require their own authorization and verification.

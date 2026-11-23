@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a reproducible problem with the boilerplate.
+description: Report a reproducible problem with the Đà Nẵng Travel Guide.
 labels: []
 body:
   - type: markdown
@@ -23,6 +23,6 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Include Node, pnpm, operating system, browser, and relevant logs.
+      description: Include the URL, locale, browser, and relevant logs. For local issues, include Node, pnpm, and operating system.
     validations:
       required: true

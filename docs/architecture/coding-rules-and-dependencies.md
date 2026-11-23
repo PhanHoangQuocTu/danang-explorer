@@ -1,5 +1,7 @@
 # Coding rules and dependencies
 
+The dependency inventory below records the Phase 01 baseline. Use [AGENTS.md](../../AGENTS.md), [package.json](../../package.json), and [pnpm-lock.yaml](../../pnpm-lock.yaml) for current rules and versions.
+
 [Repository audit](repository-audit.md) · [Architecture](project-architecture.md) · [Decisions and risks](decisions-and-risks.md) · [Phase map](../implementation/phase-map.md)
 
 ## Repository rules

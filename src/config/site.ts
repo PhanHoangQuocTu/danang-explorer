@@ -1,16 +1,17 @@
 import { env, isProductionEnv } from '@/constants/env';
+import common from '@/messages/vi/common.json';
 
 export type SiteConfig = typeof siteConfig;
 
 export { isProductionEnv };
 
 /**
- * Locale-independent site facts (manifest, fallbacks).
- * Localised copy lives in `src/messages/<locale>/common.json` under `seo`.
+ * Shared site facts and default-locale branding for the manifest and social images.
  */
 export const siteConfig = {
   appUrl: env.APP_URL,
-  name: 'Frontend Boilerplate',
-  shortName: 'Boilerplate',
-  description: 'Production-ready Next.js frontend boilerplate.',
+  name: common.seo.siteName,
+  shortName: 'Đà Nẵng',
+  description: common.seo.description,
+  mark: 'Đ',
 };

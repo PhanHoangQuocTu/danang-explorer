@@ -17,7 +17,7 @@ export const HomeContent = async ({ t, locale }: TravelViewProps) => {
 export const Home = async ({ locale }: { locale: Locale }) => {
   const { t } = await useTranslationsServer('travel', locale);
   return (
-    <MainLayout>
+    <MainLayout showTravelRefresh>
       <Suspense fallback={<TravelState t={t} state='loading' />}>
         <HomeContent t={t} locale={locale} />
       </Suspense>

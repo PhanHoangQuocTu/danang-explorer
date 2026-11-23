@@ -68,6 +68,64 @@
     "itinerary": "Lịch trình ba ngày",
     "travelTips": "Lưu ý du lịch"
   },
+  "insights": {
+    "title": "Bức tranh du lịch Đà Nẵng",
+    "nav": "Số liệu",
+    "description": "Xem các địa điểm trong cẩm nang phân bố theo danh mục, khu vực, trạng thái và mức đánh giá đã ghi nhận.",
+    "count": "Địa điểm",
+    "label": "Nhóm",
+    "unavailable": "—",
+    "unknownArea": "Chưa xác định khu vực",
+    "overview": {
+      "total": "Tổng địa điểm",
+      "active": "Ghi nhận đang hoạt động",
+      "areas": "Khu vực có địa điểm",
+      "coverage": "Tỷ lệ có đánh giá"
+    },
+    "coverageDetail": "{rated, number} trên {total, plural, one {# địa điểm} other {# địa điểm}}",
+    "distributions": {
+      "category": {
+        "title": "Địa điểm theo danh mục",
+        "description": "Số bản ghi trong năm danh mục chính của cẩm nang."
+      },
+      "area": {
+        "title": "Địa điểm theo khu vực",
+        "description": "Số bản ghi theo khu vực được xác định trong cẩm nang."
+      },
+      "status": {
+        "title": "Trạng thái địa điểm",
+        "description": "Trạng thái được ghi nhận trong bản dữ liệu hiện tại."
+      },
+      "rating": {
+        "title": "Phân bố đánh giá",
+        "description": "Số bản ghi trong từng khoảng đánh giá dạng số."
+      }
+    },
+    "buckets": {
+      "underThree": "0,0–2,9",
+      "underFour": "3,0–3,9",
+      "underFourFive": "4,0–4,4",
+      "fourFiveToFive": "4,5–5,0"
+    },
+    "ratingEmpty": "Chưa có địa điểm nào có đánh giá dạng số.",
+    "ratedOnly": "{count, plural, one {# địa điểm có đánh giá dạng số.} other {# địa điểm có đánh giá dạng số.}}",
+    "noRating": "{count, plural, one {# địa điểm chưa có đánh giá dạng số.} other {# địa điểm chưa có đánh giá dạng số.}}",
+    "ratingValue": "Đánh giá {value, number} / 5",
+    "top": {
+      "title": "Đánh giá cao nhất được ghi nhận",
+      "description": "Điểm đánh giá và trạng thái địa điểm lấy từ bản dữ liệu hiện tại.",
+      "empty": "Chưa có địa điểm có điểm đánh giá để hiển thị."
+    },
+    "method": {
+      "title": "Cách tính số liệu",
+      "description": "Số liệu được tính từ bản dữ liệu hiện tại sau khi chuẩn hóa. Mỗi dòng địa điểm được tính là một bản ghi. Các mục trùng tên từ những trang tính khác nhau được đếm riêng. Điểm đánh giá hợp lệ là số từ 0 đến 5."
+    }
+  },
+  "refresh": {
+    "label": "Cập nhật dữ liệu",
+    "pending": "Đang yêu cầu dữ liệu mới.",
+    "cooldown": "Vui lòng đợi trước khi cập nhật lại."
+  },
   "detail": {
     "breadcrumb": "Điều hướng trang",
     "home": "Trang chủ",

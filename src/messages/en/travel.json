@@ -68,6 +68,64 @@
     "itinerary": "Three-day itinerary",
     "travelTips": "Travel Tips"
   },
+  "insights": {
+    "title": "Đà Nẵng travel insights",
+    "nav": "Insights",
+    "description": "See how places in the travel guide are distributed across categories, areas, statuses, and recorded ratings.",
+    "count": "Listings",
+    "label": "Group",
+    "unavailable": "—",
+    "unknownArea": "Unassigned area",
+    "overview": {
+      "total": "Total listings",
+      "active": "Listed as active",
+      "areas": "Areas represented",
+      "coverage": "Rating coverage"
+    },
+    "coverageDetail": "{rated, number} of {total, plural, one {# listing} other {# listings}}",
+    "distributions": {
+      "category": {
+        "title": "Listings by category",
+        "description": "Counts across the five main categories in the guide."
+      },
+      "area": {
+        "title": "Listings by area",
+        "description": "Counts by canonical area in the guide."
+      },
+      "status": {
+        "title": "Listed statuses",
+        "description": "Statuses recorded in the workbook snapshot."
+      },
+      "rating": {
+        "title": "Recorded ratings",
+        "description": "Counts of listings in each numeric rating range."
+      }
+    },
+    "buckets": {
+      "underThree": "0.0–2.9",
+      "underFour": "3.0–3.9",
+      "underFourFive": "4.0–4.4",
+      "fourFiveToFive": "4.5–5.0"
+    },
+    "ratingEmpty": "No listings have a numeric rating.",
+    "ratedOnly": "{count, plural, one {# listing has a numeric rating.} other {# listings have a numeric rating.}}",
+    "noRating": "{count, plural, one {# listing has no numeric rating.} other {# listings have no numeric rating.}}",
+    "ratingValue": "Rating {value, number} / 5",
+    "top": {
+      "title": "Highest recorded ratings",
+      "description": "Ratings and listing statuses come from the workbook snapshot.",
+      "empty": "There are no rated listings to show."
+    },
+    "method": {
+      "title": "How these figures are counted",
+      "description": "Figures describe the current normalized workbook. Counts represent listing records, and same-name entries from different sheets count separately. A rating is included when its numeric value falls between 0 and 5."
+    }
+  },
+  "refresh": {
+    "label": "Refresh data",
+    "pending": "Requesting fresh data.",
+    "cooldown": "Refresh is available again in a moment."
+  },
   "detail": {
     "breadcrumb": "Breadcrumb",
     "home": "Home",

@@ -69,7 +69,7 @@ export const ExploreFilters = ({ t, locale, state, query, areas, options, clearH
               <summary className='flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-md px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden'>
                 <span className='flex-1 font-medium'>{t(`explore.${key}`)}</span>
                 {state[key].length > 0 && (
-                  <span className='text-muted-foreground text-xs'>
+                  <span className='text-xs text-muted-foreground'>
                     {t('explore.selected', { count: state[key].length })}
                   </span>
                 )}
@@ -95,7 +95,7 @@ export const ExploreFilters = ({ t, locale, state, query, areas, options, clearH
                   ))}
                 </fieldset>
               ) : (
-                <p className='border-t px-3 py-2 text-muted-foreground text-sm'>{t('explore.noOptions')}</p>
+                <p className='border-t px-3 py-2 text-sm text-muted-foreground'>{t('explore.noOptions')}</p>
               )}
             </details>
           ))}
@@ -147,11 +147,11 @@ export const ExploreFilters = ({ t, locale, state, query, areas, options, clearH
       </ExploreForm>
       {active.length > 0 && (
         <div className='flex flex-wrap items-center gap-2 border-t pt-3'>
-          <p className='text-muted-foreground text-sm'>{t('explore.activeFilters')}</p>
+          <p className='text-sm text-muted-foreground'>{t('explore.activeFilters')}</p>
           <ul className='flex min-w-0 flex-wrap gap-1.5'>
             {active.map(({ id, label }) => (
-              <li key={id} className='min-w-0 max-w-full'>
-                <Badge variant='secondary' className='wrap-anywhere h-auto max-w-full whitespace-normal'>
+              <li key={id} className='max-w-full min-w-0'>
+                <Badge variant='secondary' className='h-auto max-w-full wrap-anywhere whitespace-normal'>
                   {label}
                 </Badge>
               </li>

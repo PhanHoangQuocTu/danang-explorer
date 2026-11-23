@@ -31,8 +31,8 @@ export const TripIdeasView = ({ t, editorial }: TripIdeasViewProps) => (
             <div className='min-w-0 divide-y border-y'>
               {editorial[section].map(({ title, content }, index) => (
                 <article key={`${index}-${title}`} lang='vi' className='space-y-2 py-5 first:pt-4 last:pb-4'>
-                  <h3 className='wrap-anywhere whitespace-pre-wrap font-semibold text-lg leading-snug'>{title}</h3>
-                  <p className='wrap-anywhere max-w-prose whitespace-pre-wrap text-muted-foreground leading-relaxed'>
+                  <h3 className='text-lg leading-snug font-semibold wrap-anywhere whitespace-pre-wrap'>{title}</h3>
+                  <p className='max-w-prose leading-relaxed wrap-anywhere whitespace-pre-wrap text-muted-foreground'>
                     {content}
                   </p>
                 </article>

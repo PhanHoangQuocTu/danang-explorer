@@ -1,17 +1,18 @@
 # syntax=docker/dockerfile:1.7
-ARG NODE_VERSION=22
+ARG NODE_VERSION=26.13.1
 
 # ---- deps: install with a cached pnpm store ---------------------------------
-FROM node:${NODE_VERSION}-alpine AS deps
-RUN corepack enable
+FROM node:${NODE_VERSION}-alpine AS build-base
+RUN npm install --global corepack@0.36.0 && corepack enable
+
+FROM build-base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile --ignore-scripts
 
 # ---- builder ----------------------------------------------------------------
-FROM node:${NODE_VERSION}-alpine AS builder
-RUN corepack enable
+FROM build-base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

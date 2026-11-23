@@ -12,7 +12,7 @@ export const ListingNameLink = ({ id, name }: Pick<ITravelListing, 'id' | 'name'
     href={placeHref(id)}
     prefetch={false}
     lang='vi'
-    className='wrap-anywhere rounded-sm underline decoration-muted-foreground/60 underline-offset-4 hover:decoration-current focus-visible:outline-2 focus-visible:outline-ring'
+    className='rounded-sm wrap-anywhere underline decoration-muted-foreground/60 underline-offset-4 hover:decoration-current focus-visible:outline-2 focus-visible:outline-ring'
   >
     {name}
   </Link>

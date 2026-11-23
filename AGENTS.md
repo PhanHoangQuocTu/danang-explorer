@@ -5,11 +5,11 @@ Claude Code reads `CLAUDE.md`, which imports this file. Keep the two in sync by 
 
 ## What this repo is
 
-A reusable **Next.js 16 frontend boilerplate**: App Router, React 19, TypeScript 7 (strict), Tailwind v4, shadcn/ui, next-intl (`en`, `vi`), TanStack Query, Zustand, Storybook, Vitest, Docker, CI. It has no product features. `src/modules/Health` and `src/api/posts` are examples to copy, not code to extend.
+**Cẩm nang Đà Nẵng (Da Nang Explorer)** is a bilingual travel guide built with Next.js 16, React 19, TypeScript 7, Tailwind v4, shadcn/ui, and next-intl. Vietnamese is the default locale. Home, Explore, Place Detail, Areas, Trip Ideas, and Insights use the shared server-side workbook loader. `src/modules/Health` and `src/api/posts` provide operational and API examples.
 
 ## Commands
 
-Package manager is **pnpm 12** (pinned in `package.json`, enable with `corepack enable`). Node 22.
+Package manager is **pnpm 12** (pinned in `package.json`). Use Node 26 and install Corepack with `npm install --global corepack@0.36.0` before `corepack enable`.
 
 | Task | Command |
 | --- | --- |
@@ -46,9 +46,9 @@ src/enums/enum.ts   shared enums
 src/types/          type.ts (shared types), translation.ts (message typing)
 src/hooks/          generic hooks, barrel `@/hooks`
 src/i18n/           routing, request, navigation
-src/lib/            cn(), seo.ts, og-image.tsx, theme.ts, cookies, validation
+src/lib/            travel-data (server loader, connector and parser), cn(), seo.ts, theme.ts, validation
 src/messages/       index.ts (registry + locale parity check) and <locale>/<namespace>.json
-src/modules/        page-level UI (Health is the example); pages in src/app stay thin
+src/modules/        page-level UI for travel features and Health; pages in src/app stay thin
 src/stores/         Zustand (session, modal)
 src/utils/          number, date, string, object, array, api-error, common
 src/proxy.ts        next-intl locale negotiation (Next 16 renamed middleware.ts to proxy.ts)
@@ -103,7 +103,7 @@ Only three variables exist: `NEXT_PUBLIC_APP_ENV`, `NEXT_PUBLIC_APP_URL`, `NEXT_
 
 - Use `bignumber.js` for precision-sensitive decimal arithmetic (especially money), not JavaScript floating-point operators. Construct values from decimal strings, keep results as BigNumber or strings, and choose division precision and rounding explicitly per domain. Never mutate global BigNumber configuration; use `BigNumber.clone` for domain-specific settings. Check division by zero and validate inputs at the boundary. `src/utils/number.ts` formatting helpers return `number` or display text and are not a substitute for exact arithmetic.
 - TypeScript 7: incremental builds ignore JSON edits, so `type-check` runs with `--incremental false`. Do not remove that flag. It also runs `next typegen` first so a fresh checkout has the generated `next/root-params` types. In an editor, "Restart TS Server" clears stale translation errors.
-- pnpm 12 rejects packages published less than a day ago and blocks install scripts. New build scripts need an entry in `pnpm-workspace.yaml` (`allowBuilds`). If a fresh release is rejected, pin the previous version. `@types/node` stays on the Node major used at runtime (22).
+- pnpm 12 rejects packages published less than a day ago and blocks install scripts. New build scripts need an entry in `pnpm-workspace.yaml` (`allowBuilds`). If a fresh release is rejected, pin the previous version. `@types/node` stays on the Node major used at runtime (26).
 - `next build` rewrites `tsconfig.json` when it disagrees with Next's required settings; keep the committed file as is.
 - Biome is relaxed only for `src/components/ui/**`, `src/app/**` and `src/lib/**` (see `biome.json`), do not widen it.
 - Do not kill processes with `pkill -f <pattern>` from a shell whose own command line contains that pattern; kill by PID or port.
