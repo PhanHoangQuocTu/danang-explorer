@@ -1,5 +1,6 @@
 {
-  "appName": "Frontend Boilerplate",
+  "appName": "Cẩm nang Đà Nẵng",
+  "explore": "Khám phá",
   "language": "Ngôn ngữ",
   "theme": {
     "label": "Giao diện",
@@ -34,8 +35,8 @@
     "description": "Có lỗi không mong muốn. Bạn có thể thử lại."
   },
   "seo": {
-    "siteName": "Frontend Boilerplate",
-    "defaultTitle": "Frontend Boilerplate: Next.js, shadcn/ui, i18n",
-    "description": "Boilerplate frontend Next.js sẵn sàng production với shadcn/ui, next-intl, TanStack Query, Zustand, Docker và CI."
+    "siteName": "Cẩm nang Đà Nẵng",
+    "defaultTitle": "Khám phá Đà Nẵng",
+    "description": "Tìm nơi ăn uống, tham quan và lưu trú ở Đà Nẵng cùng các vùng lân cận."
   }
 }

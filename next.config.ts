@@ -13,7 +13,8 @@ const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://jsonplaceholder.typ
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
+  // Windows can fail while copying traced pnpm dependencies into standalone output.
+  output: process.platform === 'win32' ? undefined : 'standalone',
   compress: true,
   poweredByHeader: false,
   experimental: { globalNotFound: true },

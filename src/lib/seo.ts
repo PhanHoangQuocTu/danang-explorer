@@ -5,7 +5,7 @@ import { env, isProductionEnv } from '@/constants/env';
 import { useTranslationsServer } from '@/hooks/useTranslationsServer';
 import { DEFAULT_LOCALE, LOCALE_OG, LOCALES, type Locale } from '@/i18n/routing';
 
-/** Path of a route in a locale: the default locale has no prefix (`/health`, `/vi/health`). */
+/** Path of a route in a locale: the default locale has no prefix (`/health`, `/en/health`). */
 export const getLocalizedPath = (locale: Locale, path = '/'): string => {
   const prefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
   const suffix = path === '/' ? '' : path;

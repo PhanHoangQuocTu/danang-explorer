@@ -1,7 +1,7 @@
 import { defineRouting } from 'next-intl/routing';
 
 export const LOCALES = ['en', 'vi'] as const;
-export const DEFAULT_LOCALE = 'en';
+export const DEFAULT_LOCALE = 'vi';
 export type Locale = (typeof LOCALES)[number];
 
 export const LOCALE_LABELS: Record<Locale, string> = {
@@ -18,7 +18,7 @@ export const LOCALE_OG: Record<Locale, string> = {
 export const routing = defineRouting({
   locales: LOCALES,
   defaultLocale: DEFAULT_LOCALE,
-  // `/health` for the default locale, `/vi/health` for the others.
+  // `/health` for Vietnamese, `/en/health` for English.
   localePrefix: 'as-needed',
 });
 

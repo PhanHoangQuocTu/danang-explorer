@@ -1,5 +1,6 @@
 {
-  "appName": "Frontend Boilerplate",
+  "appName": "Đà Nẵng Travel Guide",
+  "explore": "Explore",
   "language": "Language",
   "theme": {
     "label": "Theme",
@@ -34,8 +35,8 @@
     "description": "An unexpected error occurred. You can try again."
   },
   "seo": {
-    "siteName": "Frontend Boilerplate",
-    "defaultTitle": "Frontend Boilerplate: Next.js, shadcn/ui, i18n",
-    "description": "Production-ready Next.js frontend boilerplate with shadcn/ui, next-intl, TanStack Query, Zustand, Docker and CI."
+    "siteName": "Đà Nẵng Travel Guide",
+    "defaultTitle": "Discover Đà Nẵng",
+    "description": "Find places to eat, visit, and stay in Đà Nẵng and nearby."
   }
 }

@@ -1,0 +1,96 @@
+{
+  "home": {
+    "title": "Khám phá Đà Nẵng",
+    "description": "Tìm chỗ ăn uống, tắm biển và vui chơi ở Đà Nẵng cùng các vùng lân cận. Xem theo danh mục hoặc khu vực.",
+    "categories": "Xem theo danh mục",
+    "areas": "Xem theo khu vực",
+    "editorial": "Gợi ý từ cẩm nang",
+    "placesTotal": "Địa điểm",
+    "categoriesTotal": "Danh mục",
+    "areasTotal": "Khu vực"
+  },
+  "explore": {
+    "title": "Tìm địa điểm",
+    "description": "Tìm điểm đến tiếp theo theo tên, khu vực hoặc trải nghiệm bạn muốn.",
+    "filters": "Bộ lọc",
+    "category": "Danh mục chính",
+    "sourceCategory": "Phân loại gốc",
+    "area": "Khu vực",
+    "rating": "Đánh giá tối thiểu",
+    "ratingValue": "{value}+",
+    "status": "Trạng thái",
+    "suitableFor": "Phù hợp với",
+    "recommendedTime": "Thời điểm nên đi",
+    "all": "Tất cả",
+    "apply": "Áp dụng bộ lọc",
+    "clear": "Xóa tất cả",
+    "activeFilters": "Bộ lọc đang dùng",
+    "selected": "Đã chọn {count}",
+    "results": "{count, plural, =0 {0 địa điểm} one {# địa điểm} other {# địa điểm}}",
+    "sort": "Sắp xếp",
+    "sorts": {
+      "source": "Thứ tự gốc",
+      "name-asc": "Tên A–Z",
+      "rating-desc": "Đánh giá cao nhất"
+    },
+    "views": "Kiểu hiển thị kết quả",
+    "view": {
+      "grid": "Lưới",
+      "list": "Danh sách",
+      "table": "Bảng"
+    },
+    "pagination": "Trang kết quả",
+    "page": "Trang {page} / {total}",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "name": "Địa điểm",
+    "price": "Tầm giá",
+    "map": "Google Maps",
+    "mapFor": "Google Maps của {name}",
+    "empty": "Không có địa điểm phù hợp với bộ lọc.",
+    "emptyHint": "Xóa bộ lọc để xem tất cả địa điểm.",
+    "ratingHeading": "Đánh giá",
+    "noOptions": "Chưa có giá trị"
+  },
+  "detail": {
+    "breadcrumb": "Điều hướng trang",
+    "home": "Trang chủ",
+    "explore": "Khám phá",
+    "facts": "Thông tin cần biết",
+    "address": "Địa chỉ",
+    "openingHours": "Giờ mở cửa",
+    "maps": "Mở Google Maps",
+    "highlights": "Điểm nổi bật",
+    "notes": "Ghi chú & lưu ý",
+    "profile": "Thông tin chuyến đi",
+    "duration": "Thời lượng gợi ý",
+    "distance": "Cách trung tâm",
+    "meta": "{name} thuộc danh mục {category} trong cẩm nang du lịch.",
+    "metaWithArea": "{name} ở {area}, thuộc danh mục {category} trong cẩm nang du lịch."
+  },
+  "search": {
+    "label": "Tìm địa điểm",
+    "placeholder": "Tên, địa chỉ, loại",
+    "submit": "Tìm kiếm"
+  },
+  "state": {
+    "loading": "Đang tải cẩm nang du lịch…",
+    "error": "Chưa tải được cẩm nang du lịch.",
+    "errorHint": "Bảng tính nguồn có thể đang tạm thời không truy cập được. Vui lòng thử lại sau ít phút.",
+    "empty": "Cẩm nang chưa có địa điểm để hiển thị."
+  },
+  "categories": {
+    "sightseeing-nature": "Tham quan & thiên nhiên",
+    "food-dining": "Ăn uống",
+    "cafe-checkin": "Cà phê & check-in",
+    "entertainment": "Vui chơi & giải trí",
+    "accommodation": "Lưu trú"
+  },
+  "statuses": {
+    "ACTIVE": "Đang hoạt động",
+    "UNVERIFIED": "Chưa xác minh",
+    "WARNING": "Tạm dừng / Cảnh báo",
+    "CLOSED_BANNED": "Đã đóng / Cấm",
+    "UNKNOWN": "Chưa rõ"
+  }
+}

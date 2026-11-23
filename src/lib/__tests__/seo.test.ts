@@ -14,20 +14,20 @@ vi.mock('@/hooks/useTranslationsServer', () => ({
 
 describe('seo helpers', () => {
   it('prefixes only non-default locales', () => {
-    expect(getLocalizedPath('en', '/health')).toBe('/health');
-    expect(getLocalizedPath('vi', '/health')).toBe('/vi/health');
-    expect(getLocalizedPath('en')).toBe('/');
-    expect(getLocalizedPath('vi')).toBe('/vi');
+    expect(getLocalizedPath('en', '/health')).toBe('/en/health');
+    expect(getLocalizedPath('vi', '/health')).toBe('/health');
+    expect(getLocalizedPath('en')).toBe('/en');
+    expect(getLocalizedPath('vi')).toBe('/');
   });
 
   it('builds absolute URLs from NEXT_PUBLIC_APP_URL', () => {
-    expect(getAbsoluteUrl('vi', '/health')).toBe('http://localhost:3000/vi/health');
+    expect(getAbsoluteUrl('vi', '/health')).toBe('http://localhost:3000/health');
   });
 
   it('lists every locale plus x-default in hreflang alternates', () => {
     expect(getLanguageAlternates('/health')).toEqual({
-      en: 'http://localhost:3000/health',
-      vi: 'http://localhost:3000/vi/health',
+      en: 'http://localhost:3000/en/health',
+      vi: 'http://localhost:3000/health',
       'x-default': 'http://localhost:3000/health',
     });
   });
@@ -41,7 +41,7 @@ describe('seo helpers', () => {
   it('builds complete page metadata', async () => {
     const metadata = await buildMetadata({ locale: 'vi', path: '/health', title: 'Health', description: 'desc' });
 
-    expect(metadata.alternates?.canonical).toBe('http://localhost:3000/vi/health');
+    expect(metadata.alternates?.canonical).toBe('http://localhost:3000/health');
     expect(metadata.openGraph).toMatchObject({
       title: 'Health | Boilerplate',
       locale: 'vi_VN',

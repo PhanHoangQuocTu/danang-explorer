@@ -60,6 +60,8 @@ The examples and defaults are intended to be adapted and reviewed before product
 | `pnpm check` | lint + type-check + test |
 | `pnpm storybook` / `pnpm build-storybook` | Storybook dev server / static build |
 
+On Windows, `pnpm build` creates a standard Next.js build served by `pnpm start`. Use Docker or Linux CI to build the standalone deployment artifact.
+
 ## Project structure
 
 ```text
