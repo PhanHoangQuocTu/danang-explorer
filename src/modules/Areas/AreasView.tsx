@@ -8,6 +8,7 @@ import type { IAreaMetadata, ITravelDataset, ITravelListing } from '@/lib/travel
 import { ExploreResults } from '../Explore/ExploreResults';
 import { getListingCounts } from '../Travel/catalog';
 import { areaHref, exploreAreaHref } from '../Travel/navigation';
+import { SectionBreadcrumb } from '../Travel/SectionBreadcrumb';
 import { TravelState } from '../Travel/TravelState';
 import type { TravelViewProps } from '../Travel/type';
 
@@ -24,33 +25,32 @@ export const AreasView = (props: AreasViewProps) => {
     const counts = dataset && getListingCounts(dataset.listings).areas;
     return (
       <div className='space-y-8 pb-6'>
-        <header className='border-b pt-3 pb-6 sm:pt-5'>
-          <h1 className='font-[family-name:Times_New_Roman,Times,serif] text-4xl tracking-tight sm:text-5xl'>
-            {t('areas.title')}
-          </h1>
-          <p className='mt-3 max-w-xl text-muted-foreground'>{t('areas.description')}</p>
+        <SectionBreadcrumb t={t} title={t('areas.title')} />
+        <header className='guide-intro'>
+          <h1 className='guide-heading'>{t('areas.title')}</h1>
+          <p className='max-w-prose leading-relaxed text-muted-foreground'>{t('areas.description')}</p>
         </header>
         {dataset && counts ? (
-          <ul className='grid gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+          <ul className='grid gap-x-12 border-t border-ocean/50 md:grid-cols-2'>
             {dataset.areas.map(({ areaId, areaName }) => (
               <li key={areaId} className='min-w-0'>
                 <Link
                   href={areaHref(areaId)}
                   prefetch={false}
-                  className='flex h-full items-center gap-4 rounded-xl border bg-card p-5 hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring sm:p-6'
+                  className='group flex h-full items-center gap-4 border-b py-5 hover:text-primary sm:py-7'
                 >
                   <span className='min-w-0 flex-1'>
-                    <span
-                      lang='vi'
-                      className='block font-[family-name:Times_New_Roman,Times,serif] text-2xl wrap-anywhere'
-                    >
+                    <span lang='vi' className='block font-serif text-3xl tracking-tight wrap-anywhere sm:text-4xl'>
                       {areaName}
                     </span>
                     <span className='mt-1 block text-sm text-muted-foreground tabular-nums'>
                       {t('explore.results', { count: counts.get(areaId) ?? 0 })}
                     </span>
                   </span>
-                  <ArrowRightIcon aria-hidden='true' className='size-4 shrink-0 text-muted-foreground' />
+                  <ArrowRightIcon
+                    aria-hidden='true'
+                    className='size-5 shrink-0 text-primary group-hover:translate-x-1 motion-safe:transition-transform'
+                  />
                 </Link>
               </li>
             ))}
@@ -84,11 +84,8 @@ export const AreasView = (props: AreasViewProps) => {
           </li>
         </ol>
       </nav>
-      <header className='space-y-4 border-b pb-7'>
-        <h1
-          lang='vi'
-          className='font-[family-name:Times_New_Roman,Times,serif] text-4xl tracking-tight wrap-anywhere sm:text-6xl'
-        >
+      <header className='guide-intro rounded-xl border-0 bg-secondary p-6 sm:p-10'>
+        <h1 lang='vi' className='guide-heading'>
           {area.areaName}
         </h1>
         {area.description && (
@@ -99,7 +96,7 @@ export const AreasView = (props: AreasViewProps) => {
       </header>
       <section aria-labelledby='area-listings' className='space-y-4'>
         <div className='flex flex-wrap items-center justify-between gap-3'>
-          <h2 id='area-listings' className='font-[family-name:Times_New_Roman,Times,serif] text-2xl'>
+          <h2 id='area-listings' className='font-serif text-3xl text-ocean'>
             {t('explore.results', { count: listings.length })}
           </h2>
           <Button asChild variant='outline'>

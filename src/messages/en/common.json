@@ -2,6 +2,15 @@
   "appName": "Đà Nẵng Travel Guide",
   "explore": "Explore",
   "language": "Language",
+  "shell": {
+    "skip": "Skip to main content",
+    "menu": "Menu",
+    "closeMenu": "Close menu",
+    "guide": "Travel guide",
+    "owner": "Website owner",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn"
+  },
   "theme": {
     "label": "Theme",
     "light": "Light",

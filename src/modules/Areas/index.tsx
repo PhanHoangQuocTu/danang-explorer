@@ -1,10 +1,14 @@
 import { notFound } from 'next/navigation';
 
 import { MainLayout } from '@/components/layouts';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { ROUTES } from '@/constants/routes';
 import { useTranslationsServer } from '@/hooks/useTranslationsServer';
 import type { Locale } from '@/i18n/routing';
+import { breadcrumbJsonLd, getAbsoluteUrl, webPageJsonLd } from '@/lib/seo';
 
 import { loadTravelDataset } from '../Travel/loadTravelDataset';
+import { areaHref } from '../Travel/navigation';
 import { TravelState } from '../Travel/TravelState';
 import { hasCanonicalAreaMetadata, resolveArea } from './areas';
 import { AreasView } from './AreasView';
@@ -26,7 +30,24 @@ export const AreaDetail = async ({ locale, areaId }: { locale: Locale; areaId: s
   return (
     <MainLayout showTravelRefresh>
       {result.kind === 'found' ? (
-        <AreasView t={t} locale={locale} mode='detail' area={result.area} listings={result.listings} />
+        <>
+          <JsonLd
+            data={{
+              ...webPageJsonLd(
+                locale,
+                areaHref(result.area.areaId),
+                result.area.areaName,
+                result.area.description ?? undefined
+              ),
+              breadcrumb: breadcrumbJsonLd([
+                { name: t('detail.home'), url: getAbsoluteUrl(locale) },
+                { name: t('areas.title'), url: getAbsoluteUrl(locale, ROUTES.AREAS) },
+                { name: result.area.areaName, url: getAbsoluteUrl(locale, areaHref(result.area.areaId)) },
+              ]),
+            }}
+          />
+          <AreasView t={t} locale={locale} mode='detail' area={result.area} listings={result.listings} />
+        </>
       ) : (
         <div className='space-y-6'>
           <h1 className='font-[family-name:Times_New_Roman,Times,serif] text-4xl tracking-tight sm:text-5xl'>

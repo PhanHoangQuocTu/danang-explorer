@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { createTranslator } from 'next-intl';
 import type { ComponentProps } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -130,5 +130,47 @@ describe('Home and Explore', () => {
     view.rerender(await ExploreContent({ t, locale: 'vi', query: new URLSearchParams({ q: 'no matches' }) }));
     expect(screen.getByText(t('explore.empty'))).toBeVisible();
     expect(screen.getAllByRole('link', { name: t('explore.clear') })).toHaveLength(2);
+  });
+
+  it('removes one choice while preserving its siblings, the search, view and sort', async () => {
+    mockDataset();
+    const query = new URLSearchParams(
+      'q=Đỗ&category=food-dining&category=sightseeing-nature&area=hai-chau&view=list&sort=name-asc&page=2'
+    );
+    const t = translator('en');
+    render(await ExploreContent({ t, locale: 'en', query }));
+    const group = screen.getByRole('group', { name: t('explore.activeFilters') });
+    const chip = within(group).getByRole('link', {
+      name: t('explore.removeFilter', {
+        filter: t('explore.category'),
+        value: t('categories.food-dining'),
+      }),
+    });
+    const next = new URL(chip.getAttribute('href') ?? '', 'http://localhost').searchParams;
+    expect(next.getAll('category')).toEqual(['sightseeing-nature']);
+    expect(Object.fromEntries(next)).toMatchObject({ q: 'Đỗ', area: 'hai-chau', view: 'list', sort: 'name-asc' });
+    expect(next.has('page')).toBe(false);
+
+    const sortForm = screen.getByRole('form', { name: t('explore.sort') });
+    fireEvent.change(within(sortForm).getByRole('combobox'), { target: { value: 'rating-desc' } });
+    fireEvent.submit(sortForm);
+    const sorted = new URL(push.mock.calls[0][0], 'http://localhost').searchParams;
+    expect(new Set(sorted.getAll('category'))).toEqual(new Set(['food-dining', 'sightseeing-nature']));
+    expect(sorted.get('sort')).toBe('rating-desc');
+    expect(sorted.has('page')).toBe(false);
+  });
+
+  it('opens the named filter dialog and returns focus to its trigger on Escape', async () => {
+    mockDataset();
+    const t = translator('en');
+    render(await ExploreContent({ t, locale: 'en', query: new URLSearchParams({ area: 'hai-chau' }) }));
+    const trigger = screen.getByRole('button', { name: 'Filters (1)' });
+    trigger.focus();
+    fireEvent.click(trigger);
+    const dialog = await screen.findByRole('dialog', { name: 'Filters' });
+    expect(within(dialog).getByRole('button', { name: 'Close filters' })).toBeVisible();
+    fireEvent.keyDown(dialog, { key: 'Escape' });
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+    await waitFor(() => expect(trigger).toHaveFocus());
   });
 });

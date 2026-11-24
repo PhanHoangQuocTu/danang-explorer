@@ -64,9 +64,17 @@ export const TravelRefreshButton = () => {
 
   return (
     <div className='shrink-0'>
-      <Button type='button' size='sm' variant='outline' disabled={isPending || cooldownUntil > 0} onClick={refresh}>
+      <Button
+        type='button'
+        size='sm'
+        variant='ghost'
+        className='min-h-11 min-w-11'
+        title={t('label')}
+        disabled={isPending || cooldownUntil > 0}
+        onClick={refresh}
+      >
         <RefreshCwIcon aria-hidden='true' className={isPending ? 'motion-safe:animate-spin' : undefined} />
-        {t('label')}
+        <span className='sr-only xl:not-sr-only'>{t('label')}</span>
       </Button>
       <span role='status' className='sr-only'>
         {isPending && t('pending')}

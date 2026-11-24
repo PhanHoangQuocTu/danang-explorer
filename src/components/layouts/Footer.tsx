@@ -1,11 +1,8 @@
 import { useTranslationsServer } from '@/hooks/useTranslationsServer';
+import { FooterView } from './FooterView';
 
 export const Footer = async () => {
-  const { t } = await useTranslationsServer('common');
+  const [{ t }, { t: travel }] = await Promise.all([useTranslationsServer('common'), useTranslationsServer('travel')]);
 
-  return (
-    <footer className='border-t py-6 text-center text-sm text-muted-foreground'>
-      © {new Date().getFullYear()} {t('appName')}
-    </footer>
-  );
+  return <FooterView t={t} travel={travel} />;
 };

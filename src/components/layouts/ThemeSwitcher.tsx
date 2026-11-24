@@ -21,7 +21,7 @@ export const ThemeSwitcher = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline' size='icon-sm' aria-label={t('label')}>
+        <Button variant='ghost' size='icon' className='size-11' aria-label={t('label')}>
           <SunIcon className='dark:hidden' />
           <MoonIcon className='hidden dark:block' />
         </Button>

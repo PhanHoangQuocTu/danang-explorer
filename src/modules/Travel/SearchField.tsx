@@ -6,7 +6,7 @@ import type { Translator } from '@/types/translation';
 import { QUERY_LIMIT } from '../Explore/discovery';
 
 export const SearchField = ({ t, query }: { t: Translator<'travel'>; query?: string }) => (
-  <label htmlFor='travel-search' className='relative block min-w-0 flex-1 basis-52'>
+  <label htmlFor='travel-search' className='relative block min-w-0 flex-1 basis-44'>
     <span className='sr-only'>{t('search.label')}</span>
     <SearchIcon
       aria-hidden='true'
@@ -19,7 +19,7 @@ export const SearchField = ({ t, query }: { t: Translator<'travel'>; query?: str
       defaultValue={query}
       maxLength={QUERY_LIMIT}
       placeholder={t('search.placeholder')}
-      className='h-11 bg-background pl-11'
+      className='h-12 rounded-lg bg-background pl-11 text-foreground shadow-none'
     />
   </label>
 );

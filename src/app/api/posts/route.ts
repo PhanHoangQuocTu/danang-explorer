@@ -1,8 +1,7 @@
 import type { NextRequest } from 'next/server';
 
-import { request } from '@/api/axios';
+import { json, pagination, post, postList, publicPosts, readPostBody, upstreamFailure } from '@/api/posts/boundary';
 import { POST_KEYS } from '@/api/posts/keys';
-import { createApiErrorResponse } from '@/utils/api-error';
 
 /**
  * BFF proxy example.
@@ -13,26 +12,27 @@ import { createApiErrorResponse } from '@/utils/api-error';
  * response can be reshaped before it reaches the client.
  */
 export async function GET(req: NextRequest) {
+  const search = req.nextUrl.searchParams;
+  const query = pagination.safeParse(Object.fromEntries(search));
+  if (!query.success || search.size !== Object.keys(query.data).length)
+    return json({ message: 'Invalid pagination' }, 400);
   try {
-    const response = await request.get(POST_KEYS.GET_POSTS, {
-      params: Object.fromEntries(req.nextUrl.searchParams),
-      headers: { Authorization: req.headers.get('authorization') ?? undefined },
-    });
-
-    return Response.json(response.data);
+    const response = await publicPosts.get(POST_KEYS.GET_POSTS, { params: query.data, signal: req.signal });
+    const result = postList.safeParse(response.data);
+    return result.success ? json(result.data) : json({ message: 'Invalid upstream response' }, 502);
   } catch (error) {
-    return createApiErrorResponse(error, 'Failed to fetch posts');
+    return upstreamFailure(error);
   }
 }
 
 export async function POST(req: NextRequest) {
+  const input = await readPostBody(req);
+  if (input instanceof Response) return input;
   try {
-    const response = await request.post(POST_KEYS.GET_POSTS, await req.json(), {
-      headers: { Authorization: req.headers.get('authorization') ?? undefined },
-    });
-
-    return Response.json(response.data, { status: response.status });
+    const response = await publicPosts.post(POST_KEYS.GET_POSTS, input, { signal: req.signal });
+    const result = post.safeParse(response.data);
+    return result.success ? json(result.data, response.status) : json({ message: 'Invalid upstream response' }, 502);
   } catch (error) {
-    return createApiErrorResponse(error, 'Failed to create post');
+    return upstreamFailure(error);
   }
 }

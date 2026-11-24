@@ -78,19 +78,19 @@ export const ExploreResults = ({ t, locale, listings, view }: ExploreResultsProp
       {listings.map((listing) => (
         <li
           key={listing.id}
-          className={cn('min-w-0', view === 'grid' && 'flex rounded-xl border bg-card text-card-foreground')}
+          className={cn('min-w-0', view === 'grid' && 'flex border-t-2 border-primary/60 bg-card text-card-foreground')}
         >
           <article
             className={cn(
               'w-full min-w-0 gap-4',
               view === 'grid'
-                ? 'flex flex-col p-5'
-                : 'grid py-4 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_auto] sm:items-center sm:px-2'
+                ? 'flex flex-col p-5 sm:p-6'
+                : 'grid py-5 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_auto] sm:items-center sm:gap-x-6'
             )}
           >
             <div className='min-w-0 space-y-2'>
               <p className='text-xs font-medium text-muted-foreground'>{t(`categories.${listing.mainCategory}`)}</p>
-              <h3 className='text-lg leading-tight font-semibold wrap-anywhere'>
+              <h3 className='font-serif text-2xl leading-tight tracking-tight wrap-anywhere text-ocean'>
                 <ListingNameLink id={listing.id} name={listing.name} />
               </h3>
               {(listing.areaName || listing.address) && (

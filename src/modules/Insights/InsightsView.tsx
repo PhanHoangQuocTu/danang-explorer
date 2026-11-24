@@ -1,5 +1,6 @@
 import { ListingNameLink } from '../Travel/ListingLinks';
 import { ListingStatusBadge } from '../Travel/ListingStatusBadge';
+import { SectionBreadcrumb } from '../Travel/SectionBreadcrumb';
 import { TravelState } from '../Travel/TravelState';
 import type { TravelViewProps } from '../Travel/type';
 import { InsightsChart } from './InsightsChart';
@@ -41,16 +42,15 @@ export const InsightsView = ({ t, locale, metrics }: InsightsViewProps) => {
 
   return (
     <div className='min-w-0 space-y-10 pb-6 sm:space-y-12'>
-      <header className='space-y-3 border-b pt-3 pb-6 sm:pt-5'>
-        <h1 className='font-[family-name:Times_New_Roman,Times,serif] text-4xl tracking-tight sm:text-5xl'>
-          {t('insights.title')}
-        </h1>
-        <p className='max-w-prose text-muted-foreground'>{t('insights.description')}</p>
+      <SectionBreadcrumb t={t} title={t('insights.title')} />
+      <header className='guide-intro'>
+        <h1 className='guide-heading'>{t('insights.title')}</h1>
+        <p className='max-w-prose leading-relaxed text-muted-foreground'>{t('insights.description')}</p>
       </header>
 
       {metrics && overview ? (
         <>
-          <dl className='grid grid-cols-2 gap-x-4 gap-y-5 border-b pb-6 sm:grid-cols-4'>
+          <dl className='grid grid-cols-2 gap-x-6 gap-y-6 rounded-xl bg-secondary p-5 sm:grid-cols-4 sm:p-8'>
             {(
               [
                 ['total', number.format(overview.total)],
@@ -64,9 +64,7 @@ export const InsightsView = ({ t, locale, metrics }: InsightsViewProps) => {
             ).map(([key, value]) => (
               <div key={key} className='min-w-0 space-y-1'>
                 <dt className='text-sm text-muted-foreground'>{t(`insights.overview.${key}`)}</dt>
-                <dd className='font-[family-name:Times_New_Roman,Times,serif] text-3xl tracking-tight tabular-nums sm:text-4xl'>
-                  {value}
-                </dd>
+                <dd className='font-serif text-3xl tracking-tight tabular-nums sm:text-4xl'>{value}</dd>
                 {key === 'coverage' && (
                   <dd className='text-xs text-muted-foreground'>
                     {t('insights.coverageDetail', { rated: overview.rated, total: overview.total })}
@@ -77,7 +75,7 @@ export const InsightsView = ({ t, locale, metrics }: InsightsViewProps) => {
           </dl>
           {overview.total === 0 && <TravelState t={t} state='empty' />}
 
-          <div className='grid gap-6 lg:grid-cols-2'>
+          <div className='grid gap-x-12 gap-y-12 lg:grid-cols-2'>
             {distributions.map(({ key, rows }) => {
               const titleId = `insights-${key}-title`;
               const descriptionId = `insights-${key}-description`;
@@ -86,9 +84,9 @@ export const InsightsView = ({ t, locale, metrics }: InsightsViewProps) => {
                   key={key}
                   aria-labelledby={titleId}
                   aria-describedby={descriptionId}
-                  className='min-w-0 space-y-3 rounded-xl border p-4 sm:p-5'
+                  className='min-w-0 space-y-4 border-t border-ocean/50 pt-5'
                 >
-                  <h2 id={titleId} className='font-[family-name:Times_New_Roman,Times,serif] text-2xl tracking-tight'>
+                  <h2 id={titleId} className='font-serif text-3xl tracking-tight text-ocean'>
                     {t(`insights.distributions.${key}.title`)}
                   </h2>
                   <p id={descriptionId} className='text-sm text-muted-foreground'>
@@ -144,10 +142,7 @@ export const InsightsView = ({ t, locale, metrics }: InsightsViewProps) => {
           </div>
 
           <section aria-labelledby='insights-top-title' className='space-y-3'>
-            <h2
-              id='insights-top-title'
-              className='font-[family-name:Times_New_Roman,Times,serif] text-3xl tracking-tight'
-            >
+            <h2 id='insights-top-title' className='font-serif text-3xl tracking-tight'>
               {t('insights.top.title')}
             </h2>
             <p className='max-w-prose text-sm text-muted-foreground'>{t('insights.top.description')}</p>

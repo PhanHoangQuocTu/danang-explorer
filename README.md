@@ -36,8 +36,20 @@ Trong PowerShell, dùng `Copy-Item .env.example .env.local` để tạo file mô
 | `NEXT_PUBLIC_APP_ENV` | `development`, `staging` hoặc `production`. Local và Preview dùng noindex |
 | `NEXT_PUBLIC_APP_URL` | Origin công khai, không có dấu slash cuối. Dùng cho canonical, hreflang, sitemap và metadata chia sẻ |
 | `NEXT_PUBLIC_API_URL` | Origin cho mẫu BFF `/api/posts` và rewrite `/proxy/*`. Mặc định là JSONPlaceholder |
+| `NEXT_PUBLIC_OWNER_NAME` | Tên chủ sở hữu hiển thị ở chân trang, mặc định Phan Hoàng Quốc Tú |
+| `NEXT_PUBLIC_OWNER_EMAIL` | Email liên hệ công khai, mặc định tuphan694@gmail.com |
+| `NEXT_PUBLIC_OWNER_FACEBOOK_URL` | Hồ sơ công khai https://www.facebook.com/phanhoangquoctu/ |
+| `NEXT_PUBLIC_OWNER_LINKEDIN_URL` | Hồ sơ công khai https://www.linkedin.com/in/phanhoangquoctu/ |
 
 Các biến `NEXT_PUBLIC_*` được đưa vào bản build. Dùng [.env.example](.env.example) để cấu hình local và giữ bí mật ngoài các biến công khai.
+
+## SEO và nhận diện
+
+Trên Vercel, đặt `NEXT_PUBLIC_APP_ENV=production` và `NEXT_PUBLIC_APP_URL=https://dn-explorer.phanhoangquoctu.io.vn` cho Production. Đặt Preview thành `staging`, local thành `development`. Kiểm tra lại sau mỗi lần build thay đổi biến công khai. Thông tin chủ sở hữu hiển thị cho khách và trình thu thập dữ liệu.
+
+Để xác minh Google Search Console, chủ tên miền thêm Domain property, sao chép bản ghi TXT do Google cấp vào DNS và chọn Verify. Sau khi triển khai, mở `/robots.txt` và `/sitemap.xml`, gửi sitemap trong Search Console rồi dùng URL Inspection cho một trang tiếng Việt, một trang tiếng Anh và một địa điểm. Theo dõi báo cáo Page indexing để biết Google đã xử lý URL nào.
+
+Xem [bối cảnh sản phẩm](PRODUCT.md), [hệ thống thiết kế và logo](DESIGN.md) và [logo PNG](public/brand-mark.png).
 
 ## Dữ liệu và kiến trúc
 

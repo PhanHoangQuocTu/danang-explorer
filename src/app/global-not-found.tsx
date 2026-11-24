@@ -14,10 +14,22 @@ export const metadata: Metadata = {
 export default function RootNotFound() {
   return (
     <html lang={DEFAULT_LOCALE}>
-      <body style={{ fontFamily: 'system-ui, sans-serif', display: 'grid', placeItems: 'center', minHeight: '100dvh' }}>
+      <body
+        style={{
+          background: '#F8F7F2',
+          color: '#123B4A',
+          fontFamily: 'system-ui, sans-serif',
+          display: 'grid',
+          placeItems: 'center',
+          minHeight: '100dvh',
+        }}
+      >
         <div style={{ textAlign: 'center' }}>
           <h1 style={{ fontSize: '3rem', margin: 0 }}>404</h1>
           <p>{common.notFound.title}</p>
+          <a href='/' style={{ color: '#0F6B70' }}>
+            {common.actions.backHome}
+          </a>
         </div>
       </body>
     </html>

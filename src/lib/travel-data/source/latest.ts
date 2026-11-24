@@ -3,7 +3,7 @@ import { downloadLatestTravelWorkbook } from './google-sheets';
 import type { LatestTravelDatasetResult } from './type';
 
 /** Fetch and validate one workbook for server-side consumers. */
-export const fetchLatestTravelDataset = async (): Promise<LatestTravelDatasetResult> => {
+const readLatestTravelDataset = async (): Promise<LatestTravelDatasetResult> => {
   const download = await downloadLatestTravelWorkbook();
   if (!download.ok) return download;
 
@@ -15,4 +15,14 @@ export const fetchLatestTravelDataset = async (): Promise<LatestTravelDatasetRes
     error: { code: 'WORKBOOK_DATA_BUILD_FAILED', message: 'Downloaded workbook failed data validation.' },
     source: download.metadata,
   };
+};
+
+// Every caller reads the same public workbook. Share only the active read on this instance.
+let pending: Promise<LatestTravelDatasetResult> | undefined;
+
+export const fetchLatestTravelDataset = (): Promise<LatestTravelDatasetResult> => {
+  pending ??= readLatestTravelDataset().finally(() => {
+    pending = undefined;
+  });
+  return pending;
 };

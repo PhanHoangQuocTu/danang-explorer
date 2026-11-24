@@ -13,5 +13,10 @@ export const siteConfig = {
   name: common.seo.siteName,
   shortName: 'Đà Nẵng',
   description: common.seo.description,
-  mark: 'Đ',
+  owner: {
+    name: env.OWNER_NAME,
+    email: env.OWNER_EMAIL,
+    facebookUrl: env.OWNER_FACEBOOK_URL,
+    linkedinUrl: env.OWNER_LINKEDIN_URL,
+  },
 };

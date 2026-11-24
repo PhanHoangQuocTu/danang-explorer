@@ -1,27 +1,26 @@
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, SearchIcon, SlidersHorizontalIcon, XIcon } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
+import { SheetClose } from '@/components/ui/sheet';
 import { ROUTES } from '@/constants/routes';
 import { getPathname, Link } from '@/i18n/navigation';
 import type { IAreaMetadata } from '@/lib/travel-data/type';
 
 import { getCanonicalAreas, LISTING_STATUSES, MAIN_CATEGORIES } from '../Travel/catalog';
+import { exploreHref } from '../Travel/navigation';
 import { SearchField } from '../Travel/SearchField';
 import type { TravelViewProps } from '../Travel/type';
-import { type ExploreState, type getExploreOptions, getUnrelatedParams, RATINGS, SORTS } from './discovery';
-import { ExploreForm } from './ExploreForm';
+import { type ExploreState, type getExploreOptions, RATINGS, serializeExploreState, SORTS } from './discovery';
+import { ExploreForm, MobileFilterSheet } from './ExploreForm';
 
+type MultiFilter = 'category' | 'sourceCategory' | 'area' | 'suitableFor' | 'recommendedTime';
+type FilterKey = MultiFilter | 'q' | 'rating' | 'status';
 interface Option {
   value: string;
   label: string;
 }
-
 const asOptions = (values: readonly string[]) => values.map((value) => ({ value, label: value }));
-
-type MultiFilter = 'category' | 'sourceCategory' | 'area' | 'suitableFor' | 'recommendedTime';
-
 interface ExploreFiltersProps extends TravelViewProps {
   state: ExploreState;
   query: URLSearchParams;
@@ -29,6 +28,11 @@ interface ExploreFiltersProps extends TravelViewProps {
   options: ReturnType<typeof getExploreOptions>;
   clearHref: string;
 }
+
+const hiddenFields = (params: URLSearchParams) =>
+  Array.from(params, ([name, value], index) => (
+    <input key={`${name}-${index}`} type='hidden' name={name} value={value} />
+  ));
 
 export const ExploreFilters = ({ t, locale, state, query, areas, options, clearHref }: ExploreFiltersProps) => {
   const fields: { key: MultiFilter; items: Option[] }[] = [
@@ -38,127 +42,203 @@ export const ExploreFilters = ({ t, locale, state, query, areas, options, clearH
     { key: 'suitableFor', items: asOptions(options.suitableFor) },
     { key: 'recommendedTime', items: asOptions(options.recommendedTime) },
   ];
-  const active = fields.flatMap(({ key, items }) =>
-    items
-      .filter(({ value }) => state[key].some((selected) => selected === value))
-      .map(({ value, label }) => ({ id: `${key}:${value}`, label }))
+  const active: { key: FilterKey; value: string; label: string }[] = fields.flatMap(({ key, items }) =>
+    items.filter(({ value }) => state[key].some((selected) => selected === value)).map((item) => ({ ...item, key }))
   );
-  if (state.q) active.unshift({ id: 'q', label: state.q });
-  if (state.rating) active.push({ id: 'rating', label: t('explore.ratingValue', { value: state.rating }) });
-  if (state.status) active.push({ id: 'status', label: t(`statuses.${state.status}`) });
+  if (state.rating)
+    active.push({ key: 'rating', value: state.rating, label: t('explore.ratingValue', { value: state.rating }) });
+  if (state.status) active.push({ key: 'status', value: state.status, label: t(`statuses.${state.status}`) });
+  const filterCount = active.length;
+  if (state.q) active.unshift({ key: 'q', value: state.q, label: state.q });
+  const action = getPathname({ locale, href: ROUTES.EXPLORE });
+  const current = serializeExploreState({ ...state, page: 1 }, query);
+  const searchParams = new URLSearchParams(current);
+  searchParams.delete('q');
+  const filterParams = new URLSearchParams(current);
+  for (const { key } of fields) filterParams.delete(key);
+  filterParams.delete('rating');
+  filterParams.delete('status');
 
-  return (
-    <section aria-labelledby='explore-filters' className='min-w-0 space-y-4 rounded-xl border bg-muted/25 p-4 sm:p-5'>
-      <h2 id='explore-filters' className='font-semibold'>
-        {t('explore.filters')}
-      </h2>
-      <ExploreForm action={getPathname({ locale, href: ROUTES.EXPLORE })} label={t('explore.filters')}>
-        {Array.from(getUnrelatedParams(query), ([name, value], index) => (
-          <input key={`${name}-${index}`} type='hidden' name={name} value={value} />
-        ))}
-        {state.view !== 'grid' && <input type='hidden' name='view' value={state.view} />}
-        <div className='flex flex-wrap items-center gap-2'>
-          <SearchField t={t} query={state.q} />
-          <Button type='submit' className='h-11'>
-            {t('search.submit')}
-          </Button>
-        </div>
-        <div className='grid gap-2 sm:grid-cols-2 lg:grid-cols-3'>
-          {fields.map(({ key, items }) => (
-            <details key={key} className='group min-w-0 rounded-md border bg-background'>
-              <summary className='flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-md px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden'>
-                <span className='flex-1 font-medium'>{t(`explore.${key}`)}</span>
-                {state[key].length > 0 && (
-                  <span className='text-xs text-muted-foreground'>
-                    {t('explore.selected', { count: state[key].length })}
-                  </span>
-                )}
-                <ChevronDownIcon
-                  className='size-4 shrink-0 text-muted-foreground group-open:rotate-180'
-                  aria-hidden='true'
-                />
-              </summary>
-              {items.length > 0 ? (
-                <fieldset className='max-h-48 space-y-1.5 overflow-y-auto border-t px-3 py-2'>
-                  <legend className='sr-only'>{t(`explore.${key}`)}</legend>
-                  {items.map(({ value, label }) => (
-                    <label key={value} className='flex min-h-9 cursor-pointer items-start gap-2 py-1 text-sm'>
-                      <input
-                        type='checkbox'
-                        name={key}
-                        value={value}
-                        defaultChecked={state[key].some((selected) => selected === value)}
-                        className='mt-0.5 size-4 shrink-0 accent-primary'
-                      />
-                      <span className='wrap-anywhere'>{label}</span>
-                    </label>
-                  ))}
-                </fieldset>
-              ) : (
-                <p className='border-t px-3 py-2 text-sm text-muted-foreground'>{t('explore.noOptions')}</p>
+  const filtersForm = (mobile: boolean) => (
+    <ExploreForm key={current.toString()} action={action} label={t('explore.filters')} className='space-y-3'>
+      {hiddenFields(filterParams)}
+      <div className='grid gap-2 lg:grid-cols-4'>
+        {fields.map(({ key, items }) => (
+          <details key={key} className='group h-fit min-w-0 rounded-lg border bg-card'>
+            <summary className='flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-lg px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden'>
+              <span className='flex-1 font-medium'>{t(`explore.${key}`)}</span>
+              {state[key].length > 0 && (
+                <span className='text-xs text-primary'>{t('explore.selected', { count: state[key].length })}</span>
               )}
-            </details>
-          ))}
-        </div>
-        <div className='flex flex-wrap items-end gap-x-4 gap-y-3'>
-          <label htmlFor='explore-rating' className='grid gap-1 text-sm'>
-            <span>{t('explore.rating')}</span>
-            <NativeSelect id='explore-rating' name='rating' defaultValue={state.rating ?? ''}>
-              <NativeSelectOption value=''>{t('explore.all')}</NativeSelectOption>
-              {RATINGS.map((rating) => (
-                <NativeSelectOption key={rating} value={rating}>
-                  {t('explore.ratingValue', { value: rating })}
-                </NativeSelectOption>
-              ))}
-            </NativeSelect>
-          </label>
-          <label htmlFor='explore-status' className='grid gap-1 text-sm'>
-            <span>{t('explore.status')}</span>
-            <NativeSelect id='explore-status' name='status' defaultValue={state.status ?? ''}>
-              <NativeSelectOption value=''>{t('explore.all')}</NativeSelectOption>
-              {LISTING_STATUSES.map((status) => (
-                <NativeSelectOption key={status} value={status}>
-                  {t(`statuses.${status}`)}
-                </NativeSelectOption>
-              ))}
-            </NativeSelect>
-          </label>
-          <label htmlFor='explore-sort' className='grid gap-1 text-sm'>
-            <span>{t('explore.sort')}</span>
-            <NativeSelect id='explore-sort' name='sort' defaultValue={state.sort === 'source' ? '' : state.sort}>
-              {SORTS.map((sort) => (
-                <NativeSelectOption key={sort} value={sort === 'source' ? '' : sort}>
-                  {t(`explore.sorts.${sort}`)}
-                </NativeSelectOption>
-              ))}
-            </NativeSelect>
-          </label>
-          <div className='flex flex-wrap gap-2 sm:ml-auto'>
-            <Button asChild variant='ghost'>
-              <Link href={clearHref} prefetch={false}>
+              <ChevronDownIcon
+                aria-hidden='true'
+                className='size-4 shrink-0 text-muted-foreground group-open:rotate-180'
+              />
+            </summary>
+            {items.length > 0 ? (
+              <fieldset className='max-h-56 overflow-y-auto border-t px-3 py-1'>
+                <legend className='sr-only'>{t(`explore.${key}`)}</legend>
+                {items.map(({ value, label }) => (
+                  <label key={value} className='flex min-h-11 cursor-pointer items-center gap-2 py-1 text-sm'>
+                    <input
+                      type='checkbox'
+                      name={key}
+                      value={value}
+                      defaultChecked={state[key].some((selected) => selected === value)}
+                      className='size-4 shrink-0 accent-primary'
+                    />
+                    <span className='wrap-anywhere' lang={key === 'category' ? undefined : 'vi'}>
+                      {label}
+                    </span>
+                  </label>
+                ))}
+              </fieldset>
+            ) : (
+              <p className='border-t px-3 py-2 text-sm text-muted-foreground'>{t('explore.noOptions')}</p>
+            )}
+          </details>
+        ))}
+        {(['rating', 'status'] as const).map((key) => {
+          const id = `explore-${mobile ? 'mobile-' : ''}${key}`;
+          return (
+            <label
+              key={key}
+              htmlFor={id}
+              className='flex min-h-11 items-center justify-between gap-2 rounded-lg border bg-card px-3 text-sm font-medium'
+            >
+              {t(`explore.${key}`)}
+              <NativeSelect
+                id={id}
+                name={key}
+                defaultValue={state[key] ?? ''}
+                className='max-w-full border-0 bg-transparent shadow-none'
+              >
+                <NativeSelectOption value=''>{t('explore.all')}</NativeSelectOption>
+                {key === 'rating'
+                  ? RATINGS.map((rating) => (
+                      <NativeSelectOption key={rating} value={rating}>
+                        {t('explore.ratingValue', { value: rating })}
+                      </NativeSelectOption>
+                    ))
+                  : LISTING_STATUSES.map((status) => (
+                      <NativeSelectOption key={status} value={status}>
+                        {t(`statuses.${status}`)}
+                      </NativeSelectOption>
+                    ))}
+              </NativeSelect>
+            </label>
+          );
+        })}
+        <div className='flex flex-wrap items-center gap-3'>
+          <Button type='submit' className='h-11 grow'>
+            {t('explore.apply')}
+          </Button>
+          {mobile && (
+            <SheetClose asChild>
+              <Link
+                prefetch={false}
+                href={clearHref}
+                className='inline-flex min-h-11 items-center text-sm text-primary underline'
+              >
                 {t('explore.clear')}
               </Link>
-            </Button>
-            <Button type='submit' variant='outline'>
-              {t('explore.apply')}
-            </Button>
-          </div>
+            </SheetClose>
+          )}
         </div>
-      </ExploreForm>
-      {active.length > 0 && (
-        <div className='flex flex-wrap items-center gap-2 border-t pt-3'>
-          <p className='text-sm text-muted-foreground'>{t('explore.activeFilters')}</p>
-          <ul className='flex min-w-0 flex-wrap gap-1.5'>
-            {active.map(({ id, label }) => (
-              <li key={id} className='max-w-full min-w-0'>
-                <Badge variant='secondary' className='h-auto max-w-full wrap-anywhere whitespace-normal'>
-                  {label}
-                </Badge>
-              </li>
-            ))}
-          </ul>
+      </div>
+    </ExploreForm>
+  );
+  return (
+    <section aria-label={t('explore.filters')} className='min-w-0 space-y-4 border-b pb-5'>
+      <div className='flex flex-wrap items-center gap-2'>
+        <ExploreForm
+          key={state.q}
+          action={action}
+          label={t('search.label')}
+          className='flex min-w-0 grow basis-72 flex-wrap gap-2'
+        >
+          {hiddenFields(searchParams)}
+          <SearchField t={t} query={state.q} />
+          <Button type='submit' className='h-12 px-5'>
+            <SearchIcon aria-hidden='true' />
+            {t('search.submit')}
+          </Button>
+        </ExploreForm>
+        <MobileFilterSheet label={t('explore.filters')} closeLabel={t('explore.closeFilters')} count={filterCount}>
+          <div className='pt-4'>{filtersForm(true)}</div>
+        </MobileFilterSheet>
+      </div>
+      <div className='hidden lg:block'>
+        <h2 className='mb-2 flex items-center gap-2 text-sm font-semibold'>
+          <SlidersHorizontalIcon aria-hidden='true' className='size-4 text-primary' />
+          {t('explore.filters')}
+        </h2>
+        {filtersForm(false)}
+      </div>
+      {(active.length > 0 || state.sort !== 'source') && (
+        <div aria-label={t('explore.activeFilters')} role='group' className='flex flex-wrap items-center gap-2'>
+          {active.map(({ key, value, label }) => {
+            const params = new URLSearchParams(current);
+            params.delete(key, value);
+            const dimension = key === 'q' ? t('search.label') : t(`explore.${key}`);
+            return (
+              <Link
+                key={`${key}:${value}`}
+                href={exploreHref(params)}
+                prefetch={false}
+                aria-label={t('explore.removeFilter', { filter: dimension, value: label })}
+                className='inline-flex min-h-9 max-w-full items-center gap-2 rounded-full border border-primary/30 bg-secondary px-3 py-1 text-sm text-secondary-foreground hover:border-primary focus-visible:outline-2 focus-visible:outline-ring'
+              >
+                <span className='min-w-0 wrap-anywhere'>{label}</span>
+                <XIcon aria-hidden='true' className='size-3.5 shrink-0' />
+              </Link>
+            );
+          })}
+          <Link
+            href={clearHref}
+            prefetch={false}
+            className='inline-flex min-h-11 items-center rounded-sm px-2 text-sm font-semibold text-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-ring'
+          >
+            {t('explore.clear')}
+          </Link>
         </div>
       )}
     </section>
+  );
+};
+
+export const ExploreSort = ({
+  t,
+  locale,
+  state,
+  query,
+}: Pick<ExploreFiltersProps, 't' | 'locale' | 'state' | 'query'>) => {
+  const params = serializeExploreState({ ...state, sort: 'source', page: 1 }, query);
+  return (
+    <ExploreForm
+      action={getPathname({ locale, href: ROUTES.EXPLORE })}
+      label={t('explore.sort')}
+      className='flex flex-wrap items-center gap-2'
+    >
+      {hiddenFields(params)}
+      <label htmlFor='explore-sort' className='text-sm font-medium'>
+        {t('explore.sort')}
+      </label>
+      <NativeSelect
+        id='explore-sort'
+        name='sort'
+        defaultValue={state.sort === 'source' ? '' : state.sort}
+        className='h-11'
+      >
+        {SORTS.map((sort) => (
+          <NativeSelectOption key={sort} value={sort === 'source' ? '' : sort}>
+            {t(`explore.sorts.${sort}`)}
+          </NativeSelectOption>
+        ))}
+      </NativeSelect>
+      <Button variant='outline' type='submit' className='h-11'>
+        {t('explore.applySort')}
+      </Button>
+    </ExploreForm>
   );
 };

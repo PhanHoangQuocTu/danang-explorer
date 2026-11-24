@@ -20,6 +20,8 @@ export const routing = defineRouting({
   defaultLocale: DEFAULT_LOCALE,
   // `/health` for Vietnamese, `/en/health` for English.
   localePrefix: 'as-needed',
+  // Native page metadata and the sitemap publish alternates for canonical URLs.
+  alternateLinks: false,
 });
 
 /** Narrow an untyped route param to a supported locale (falls back to the default). */

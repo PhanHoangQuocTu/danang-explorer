@@ -22,9 +22,13 @@ export const getLanguageAlternates = (path = '/'): Record<string, string> => ({
 });
 
 /** Non-production environments are never indexed. */
-export const getRobots = (noIndex = false): Metadata['robots'] =>
+export const getRobots = (noIndex = false, followLinks = false): Metadata['robots'] =>
   noIndex || !isProductionEnv
-    ? { index: false, follow: false, googleBot: { index: false, follow: false } }
+    ? {
+        index: false,
+        follow: isProductionEnv && followLinks,
+        googleBot: { index: false, follow: isProductionEnv && followLinks },
+      }
     : {
         index: true,
         follow: true,
@@ -45,6 +49,7 @@ interface BuildMetadataOptions {
   title: string | { absolute: string };
   description: string;
   noIndex?: boolean;
+  followLinks?: boolean;
 }
 
 /**
@@ -57,17 +62,20 @@ export const buildMetadata = async ({
   title,
   description,
   noIndex = false,
+  followLinks = false,
 }: BuildMetadataOptions): Promise<Metadata> => {
   const { t } = await useTranslationsServer('common.seo', locale);
   const siteName = t('siteName');
   const fullTitle = typeof title === 'string' ? `${title} | ${siteName}` : title.absolute;
   const url = getAbsoluteUrl(locale, path);
+  const imageQuery = new URLSearchParams({ locale, path }).toString();
+  const imageAlt = typeof title === 'string' ? title : title.absolute;
 
   return {
     title,
     description,
     alternates: { canonical: url, languages: getLanguageAlternates(path) },
-    robots: getRobots(noIndex),
+    robots: getRobots(noIndex, followLinks),
     openGraph: {
       type: 'website',
       siteName,
@@ -76,10 +84,14 @@ export const buildMetadata = async ({
       url,
       locale: LOCALE_OG[locale],
       alternateLocale: LOCALES.filter((item) => item !== locale).map((item) => LOCALE_OG[item]),
-      // Nested objects replace the parent's, so the root-level `opengraph-image` must be referenced here.
-      images: [{ url: '/opengraph-image', ...OG_IMAGE_SIZE, alt: siteName }],
+      images: [{ url: `/opengraph-image?${imageQuery}`, ...OG_IMAGE_SIZE, alt: imageAlt }],
     },
-    twitter: { card: 'summary_large_image', title: fullTitle, description, images: ['/twitter-image'] },
+    twitter: {
+      card: 'summary_large_image',
+      title: fullTitle,
+      description,
+      images: [{ url: `/twitter-image?${imageQuery}`, alt: imageAlt }],
+    },
   };
 };
 
@@ -113,4 +125,26 @@ export const breadcrumbJsonLd = (items: { name: string; url: string }[]) => ({
     name: item.name,
     item: item.url,
   })),
+});
+
+export const webPageJsonLd = (locale: Locale, path: string, name: string, description?: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  url: getAbsoluteUrl(locale, path),
+  inLanguage: locale,
+  name,
+  description,
+  isPartOf: { '@type': 'WebSite', url: getAbsoluteUrl(locale) },
+});
+
+export const placeJsonLd = (
+  url: string,
+  listing: { name: string; address: string | null; mapsUrl: string | null }
+) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Place',
+  name: listing.name,
+  url,
+  ...(listing.address && { address: listing.address }),
+  ...(listing.mapsUrl && { hasMap: listing.mapsUrl }),
 });

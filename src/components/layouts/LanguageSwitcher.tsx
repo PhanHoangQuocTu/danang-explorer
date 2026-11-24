@@ -25,8 +25,14 @@ export const LanguageSwitcherView = ({ locale, onChange, disabled }: LanguageSwi
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline' size='sm' disabled={disabled} aria-label={t('language')}>
-          <LanguagesIcon />
+        <Button
+          variant='ghost'
+          size='sm'
+          className='min-h-11 min-w-11 gap-1.5'
+          disabled={disabled}
+          aria-label={t('language')}
+        >
+          <LanguagesIcon aria-hidden='true' className='hidden sm:block' />
           <span className='uppercase'>{locale}</span>
         </Button>
       </DropdownMenuTrigger>

@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { JsonLd } from '@/components/seo/JsonLd';
+import { ROUTES } from '@/constants/routes';
 import { useTranslationsServer } from '@/hooks/useTranslationsServer';
 import { toLocale } from '@/i18n/routing';
-import { buildMetadata, getRobots } from '@/lib/seo';
+import { getPlaceDescription } from '@/lib/guide-seo';
+import { breadcrumbJsonLd, buildMetadata, getAbsoluteUrl, getRobots, placeJsonLd, webPageJsonLd } from '@/lib/seo';
 import { PlaceDetail } from '@/modules/PlaceDetail';
 import { resolvePlace } from '@/modules/PlaceDetail/resolvePlace';
-import { getCanonicalAreaName } from '@/modules/Travel/catalog';
 import { placeHref } from '@/modules/Travel/navigation';
 
 interface PlacePageProps {
@@ -28,12 +30,7 @@ export async function generateMetadata({ params }: PlacePageProps): Promise<Meta
   }
 
   const { listing } = result;
-  const category = t(`categories.${listing.mainCategory}`);
-  const area = getCanonicalAreaName(listing);
-  const description = area
-    ? t('detail.metaWithArea', { name: listing.name, category, area })
-    : t('detail.meta', { name: listing.name, category });
-
+  const description = getPlaceDescription(listing, t);
   return buildMetadata({ locale, path: placeHref(listing.id), title: listing.name, description });
 }
 
@@ -44,5 +41,24 @@ export default async function PlacePage({ params }: PlacePageProps) {
   if (result.kind === 'not-found') notFound();
 
   const { t } = await useTranslationsServer('travel', locale);
-  return <PlaceDetail t={t} locale={locale} listing={result.kind === 'found' ? result.listing : null} />;
+  if (result.kind !== 'found') return <PlaceDetail t={t} locale={locale} listing={null} />;
+  const { listing } = result;
+  const path = placeHref(listing.id);
+  const url = getAbsoluteUrl(locale, path);
+  return (
+    <>
+      <JsonLd
+        data={{
+          ...webPageJsonLd(locale, path, listing.name, getPlaceDescription(listing, t)),
+          mainEntity: placeJsonLd(url, listing),
+          breadcrumb: breadcrumbJsonLd([
+            { name: t('detail.home'), url: getAbsoluteUrl(locale) },
+            { name: t('detail.explore'), url: getAbsoluteUrl(locale, ROUTES.EXPLORE) },
+            { name: listing.name, url },
+          ]),
+        }}
+      />
+      <PlaceDetail t={t} locale={locale} listing={listing} />
+    </>
+  );
 }

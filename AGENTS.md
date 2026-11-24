@@ -97,7 +97,7 @@ src/proxy.ts        next-intl locale negotiation (Next 16 renamed middleware.ts 
 
 ## Environment
 
-Only three variables exist: `NEXT_PUBLIC_APP_ENV`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_API_URL`. They are parsed in `src/constants/env.ts`; read env only through `env`. Do not add variables, API keys or secrets without the user asking. `NEXT_PUBLIC_*` is inlined at build time, so Docker takes them as build args. Never commit `.env*` files except `.env.example`.
+Public build variables include `NEXT_PUBLIC_APP_ENV`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_API_URL` and the four footer fields `NEXT_PUBLIC_OWNER_NAME`, `NEXT_PUBLIC_OWNER_EMAIL`, `NEXT_PUBLIC_OWNER_FACEBOOK_URL` and `NEXT_PUBLIC_OWNER_LINKEDIN_URL`. They are validated in `src/constants/env.ts` and passed as Docker build arguments. Read them through `env`. Keep credentials out of public variables. Never commit `.env*` files except `.env.example`.
 
 ## Dependencies and tooling gotchas
 

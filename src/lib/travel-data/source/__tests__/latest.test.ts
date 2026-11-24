@@ -26,6 +26,18 @@ afterEach(() => {
 });
 
 describe('fetchLatestTravelDataset', () => {
+  it.each([200, 403])('shares concurrent reads and releases the request after HTTP %i', async (status) => {
+    const fetch = mockExport(Uint8Array.from(fixture), status);
+    const [first, second] = await Promise.all([fetchLatestTravelDataset(), fetchLatestTravelDataset()]);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(first.ok).toBe(status === 200);
+    expect(second).toBe(first);
+
+    const next = mockExport(Uint8Array.from(fixture));
+    await expect(fetchLatestTravelDataset()).resolves.toMatchObject({ ok: true });
+    expect(next).toHaveBeenCalledTimes(1);
+  });
+
   it('downloads and parses once, preserving the actual Phase 02 result and diagnostics', async () => {
     const fetch = mockExport(Uint8Array.from(fixture));
 

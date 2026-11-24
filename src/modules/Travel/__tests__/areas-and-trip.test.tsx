@@ -180,11 +180,9 @@ describe('Areas and Trip Ideas routes', () => {
     expect(screen.queryByRole('article')).not.toBeInTheDocument();
   });
 
-  it('publishes both locale URLs for every supported Phase 06 page in the sitemap', () => {
-    const paths = sitemap().map(({ url }) => new URL(url).pathname);
-    const routes = ['/areas', '/trip-ideas', ...phaseSixFixture.areas.map(({ areaId }) => `/areas/${areaId}`)];
-    expect(paths).toEqual(expect.arrayContaining(routes.flatMap((route) => [route, `/en${route}`])));
-    expect(paths.filter((path) => /\/(areas|trip-ideas)\b/.test(path))).toHaveLength(20);
+  it('keeps non-production sitemaps empty without accessing the workbook', async () => {
+    await expect(sitemap()).resolves.toEqual([]);
+    expect(loadTravelDataset).not.toHaveBeenCalled();
   });
 
   it.each(['vi', 'en'] as const)('uses locale-specific metadata and alternates in %s', async (locale) => {

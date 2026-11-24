@@ -1,0 +1,15 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": ["storybook-static/iframe.html"],
+        "createdAt": "2026-11-24T02:24:15.687Z",
+        "reason": "Design review: DESIGN.md documents the editorial paper background. This generated Storybook preview reflects that palette."
+      }
+    ]
+  }
+}

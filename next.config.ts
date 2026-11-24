@@ -3,13 +3,13 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 import pkg from './package.json' with { type: 'json' };
 
-const isProductionEnv = process.env.NEXT_PUBLIC_APP_ENV === 'production';
+const isProductionEnv = process.env.NEXT_PUBLIC_APP_ENV?.trim() === 'production';
 
 /**
  * Backend origin used by the `/proxy/*` rewrite: a zero-code alternative to Route Handlers.
  * The browser calls `/proxy/...` on this origin, so CORS never applies.
  */
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://jsonplaceholder.typicode.com').replace(/\/$/, '');
+const API_URL = (process.env.NEXT_PUBLIC_API_URL?.trim() || 'https://jsonplaceholder.typicode.com').replace(/\/$/, '');
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -32,7 +32,15 @@ const nextConfig: NextConfig = {
     // Keep non-production environments out of search engines.
     const noindex = isProductionEnv ? [] : [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' }];
 
-    return [{ source: '/:path*', headers: [...security, ...noindex] }];
+    return [
+      { source: '/:path*', headers: [...security, ...noindex] },
+      ...(isProductionEnv
+        ? ['/api/:path*', '/proxy/:path*'].map((source) => ({
+            source,
+            headers: [{ key: 'X-Robots-Tag', value: 'noindex' }],
+          }))
+        : []),
+    ];
   },
   images: {
     // Tighten `remotePatterns` to your CDN hosts before going to production.

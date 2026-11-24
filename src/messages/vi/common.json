@@ -2,6 +2,15 @@
   "appName": "Cẩm nang Đà Nẵng",
   "explore": "Khám phá",
   "language": "Ngôn ngữ",
+  "shell": {
+    "skip": "Chuyển đến nội dung chính",
+    "menu": "Menu",
+    "closeMenu": "Đóng menu",
+    "guide": "Cẩm nang du lịch",
+    "owner": "Chủ sở hữu website",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn"
+  },
   "theme": {
     "label": "Giao diện",
     "light": "Sáng",

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 
+import { JsonLd } from '@/components/seo/JsonLd';
 import { ROUTES } from '@/constants/routes';
-import { useTranslationsServer } from '@/hooks/useTranslationsServer';
 import { toLocale } from '@/i18n/routing';
-import { buildMetadata } from '@/lib/seo';
+import { getGuideCopy } from '@/lib/guide-seo';
+import { buildMetadata, webPageJsonLd } from '@/lib/seo';
 import { Insights } from '@/modules/Insights';
 
 interface InsightsPageProps {
@@ -12,16 +13,23 @@ interface InsightsPageProps {
 
 export async function generateMetadata({ params }: InsightsPageProps): Promise<Metadata> {
   const { locale } = await params;
-  const { t } = await useTranslationsServer('travel.insights', locale);
+  const copy = await getGuideCopy(toLocale(locale), ROUTES.INSIGHTS);
   return buildMetadata({
     locale: toLocale(locale),
     path: ROUTES.INSIGHTS,
-    title: t('title'),
-    description: t('description'),
+    title: copy.title,
+    description: copy.description,
   });
 }
 
 export default async function InsightsPage({ params }: InsightsPageProps) {
   const { locale } = await params;
-  return <Insights locale={toLocale(locale)} />;
+  const currentLocale = toLocale(locale);
+  const { title, description } = await getGuideCopy(currentLocale, ROUTES.INSIGHTS);
+  return (
+    <>
+      <JsonLd data={webPageJsonLd(currentLocale, ROUTES.INSIGHTS, title, description)} />
+      <Insights locale={currentLocale} />
+    </>
+  );
 }

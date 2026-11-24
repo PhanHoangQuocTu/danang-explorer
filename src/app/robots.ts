@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: isProductionEnv
       ? { userAgent: '*', allow: '/', disallow: ['/api/', '/proxy/'] }
       : { userAgent: '*', disallow: '/' },
-    sitemap: `${env.APP_URL}/sitemap.xml`,
+    sitemap: isProductionEnv ? `${env.APP_URL}/sitemap.xml` : undefined,
     host: env.APP_URL,
   };
 }

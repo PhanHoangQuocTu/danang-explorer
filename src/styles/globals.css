@@ -3,28 +3,39 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="sheet-content"],
+  [data-slot="sheet-overlay"] {
+    animation: none;
+    transition: none;
+  }
+}
+
 :root {
+  --coral: #d9785b;
+  --sand: #e6d4b5;
+  --ocean: #123b4a;
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #f8f7f2;
+  --foreground: #1f2d33;
+  --card: #fffefa;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: #0f6b70;
+  --primary-foreground: #ffffff;
+  --secondary: #e8f2f1;
+  --secondary-foreground: #12484b;
+  --muted: #efede5;
+  --muted-foreground: #52666b;
+  --accent: #deede8;
+  --accent-foreground: #12484b;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: #cdd8d4;
+  --input: #80938f;
+  --ring: #136f74;
   --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-2: var(--primary);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
@@ -39,26 +50,29 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --coral: #f3a286;
+  --sand: #534b3d;
+  --ocean: #def1ee;
+  --background: #0d242c;
+  --foreground: #edf4f1;
+  --card: #15313a;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: #9adfd4;
+  --primary-foreground: #0d292d;
+  --secondary: #1d4147;
+  --secondary-foreground: #c7eae5;
+  --muted: #203941;
+  --muted-foreground: #b2c7c8;
+  --accent: #23484c;
+  --accent-foreground: #e6f6ef;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: #39565c;
+  --input: #819e9d;
+  --ring: #9adfd4;
   --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-2: var(--primary);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
@@ -73,6 +87,9 @@
 }
 
 @theme inline {
+  --color-ocean: var(--ocean);
+  --color-sand: var(--sand);
+  --color-coral: var(--coral);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --radius-sm: calc(var(--radius) - 4px);
@@ -124,5 +141,44 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+}
+
+@layer base {
+  ::selection {
+    color: var(--primary-foreground);
+    background: var(--primary);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  :where(h1, h2, h3, [id], a, button, input, summary) {
+    scroll-margin-block: 5rem 1rem;
+  }
+}
+
+@layer components {
+  .guide-heading {
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    color: var(--ocean);
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+  .guide-intro {
+    display: grid;
+    gap: 1.25rem;
+    align-items: end;
+    padding-block: clamp(1rem, 4vw, 3.5rem);
+    border-bottom: 1px solid var(--border);
+  }
+  @media (min-width: 64rem) {
+    .guide-intro {
+      grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+      column-gap: 4rem;
+    }
   }
 }

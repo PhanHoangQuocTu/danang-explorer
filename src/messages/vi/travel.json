@@ -7,7 +7,8 @@
     "editorial": "Gợi ý từ cẩm nang",
     "placesTotal": "Địa điểm",
     "categoriesTotal": "Danh mục",
-    "areasTotal": "Khu vực"
+    "areasTotal": "Khu vực",
+    "allAreas": "Tất cả khu vực"
   },
   "explore": {
     "title": "Tìm địa điểm",
@@ -50,7 +51,10 @@
     "empty": "Không có địa điểm phù hợp với bộ lọc.",
     "emptyHint": "Xóa bộ lọc để xem tất cả địa điểm.",
     "ratingHeading": "Đánh giá",
-    "noOptions": "Chưa có giá trị"
+    "noOptions": "Chưa có giá trị",
+    "removeFilter": "Bỏ {filter}, {value}",
+    "closeFilters": "Đóng bộ lọc",
+    "applySort": "Áp dụng"
   },
   "navigation": "Điều hướng chính",
   "areas": {

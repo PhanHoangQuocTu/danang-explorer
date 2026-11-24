@@ -4,6 +4,7 @@ import type { ITravelDataset } from '@/lib/travel-data/type';
 
 import { MAIN_CATEGORIES } from '../Travel/catalog';
 import { exploreHref } from '../Travel/navigation';
+import { SectionBreadcrumb } from '../Travel/SectionBreadcrumb';
 import { TravelState } from '../Travel/TravelState';
 import type { TravelViewProps } from '../Travel/type';
 import {
@@ -15,7 +16,7 @@ import {
   serializeExploreState,
   VIEWS,
 } from './discovery';
-import { ExploreFilters } from './ExploreFilters';
+import { ExploreFilters, ExploreSort } from './ExploreFilters';
 import { ExploreResults } from './ExploreResults';
 
 interface ExploreViewProps extends TravelViewProps {
@@ -25,10 +26,11 @@ interface ExploreViewProps extends TravelViewProps {
 
 export const ExploreView = ({ t, locale, query, dataset }: ExploreViewProps) => (
   <div className='min-w-0 space-y-6 pb-6'>
-    <div className='border-b pt-3 pb-6 sm:pt-5'>
-      <h1 className='font-serif text-4xl tracking-tight sm:text-5xl'>{t('explore.title')}</h1>
-      <p className='mt-3 max-w-xl text-muted-foreground'>{t('explore.description')}</p>
-    </div>
+    <SectionBreadcrumb t={t} title={t('explore.title')} />
+    <header className='guide-intro'>
+      <h1 className='guide-heading'>{t('explore.title')}</h1>
+      <p className='max-w-prose leading-relaxed text-muted-foreground'>{t('explore.description')}</p>
+    </header>
     {dataset ? (
       <ExploreDiscovery t={t} locale={locale} query={query} dataset={dataset} />
     ) : (
@@ -64,21 +66,34 @@ const ExploreDiscovery = ({
       />
       <section aria-labelledby='explore-results' className='min-w-0 space-y-4'>
         <div className='flex flex-wrap items-center justify-between gap-3'>
-          <h2 id='explore-results' aria-live='polite' className='text-lg font-semibold tabular-nums'>
+          <h2
+            id='explore-results'
+            aria-live='polite'
+            className='font-serif text-3xl tracking-tight text-ocean tabular-nums'
+          >
             {t('explore.results', { count: results.total })}
           </h2>
-          <nav
-            aria-label={t('explore.views')}
-            className='flex max-w-full flex-wrap gap-1 rounded-lg border bg-muted/50 p-1'
-          >
-            {VIEWS.map((view) => (
-              <Button key={view} asChild size='sm' variant={state.view === view ? 'default' : 'ghost'}>
-                <Link href={href({ view })} aria-current={state.view === view ? 'true' : undefined} prefetch={false}>
-                  {t(`explore.view.${view}`)}
-                </Link>
-              </Button>
-            ))}
-          </nav>
+          <div className='flex max-w-full flex-wrap items-center gap-x-5 gap-y-3'>
+            <ExploreSort key={state.sort} t={t} locale={locale} state={state} query={query} />
+            <nav
+              aria-label={t('explore.views')}
+              className='flex max-w-full flex-wrap gap-1 rounded-lg border bg-muted/50 p-1'
+            >
+              {VIEWS.map((view) => (
+                <Button
+                  key={view}
+                  asChild
+                  size='sm'
+                  variant={state.view === view ? 'default' : 'ghost'}
+                  className='min-h-10'
+                >
+                  <Link href={href({ view })} aria-current={state.view === view ? 'true' : undefined} prefetch={false}>
+                    {t(`explore.view.${view}`)}
+                  </Link>
+                </Button>
+              ))}
+            </nav>
+          </div>
         </div>
         {results.total > 0 && <ExploreResults t={t} locale={locale} listings={results.listings} view={state.view} />}
         {dataset.listings.length === 0 && <TravelState t={t} state='empty' />}

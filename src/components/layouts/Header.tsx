@@ -1,46 +1,32 @@
+import Image from 'next/image';
+
 import { ROUTES } from '@/constants/routes';
 import { useTranslationsServer } from '@/hooks/useTranslationsServer';
 import { Link } from '@/i18n/navigation';
 
-import { LanguageSwitcher } from './LanguageSwitcher';
-import { ThemeSwitcher } from './ThemeSwitcher';
-import { TravelRefreshButton } from './TravelRefreshButton';
+import { HeaderNavigation } from './HeaderNavigation';
 
 export const Header = async ({ showTravelRefresh = false }: { showTravelRefresh?: boolean } = {}) => {
-  const [{ t }, { t: travel }] = await Promise.all([useTranslationsServer('common'), useTranslationsServer('travel')]);
-  const links = [
-    [ROUTES.EXPLORE, t('explore')],
-    [ROUTES.AREAS, travel('areas.title')],
-    [ROUTES.TRIP_IDEAS, travel('tripIdeas.title')],
-    [ROUTES.INSIGHTS, travel('insights.nav')],
-  ] as const;
+  const { t } = await useTranslationsServer('common');
 
   return (
-    <header className='sticky top-0 z-40 border-b bg-background/80 backdrop-blur'>
-      <div className='mx-auto grid w-full max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 px-4 py-1 lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:gap-x-4'>
-        <Link href={ROUTES.HOME} prefetch={false} className='w-fit font-semibold tracking-tight'>
-          {t('appName')}
-        </Link>
-        <nav
-          aria-label={travel('navigation')}
-          className='col-span-2 row-start-2 flex flex-wrap items-center gap-x-1 lg:col-span-1 lg:col-start-2 lg:row-start-1'
+    <header className='border-b border-border bg-background'>
+      <a
+        href='#main-content'
+        className='sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:m-0 focus:h-auto focus:w-auto focus:overflow-visible focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-primary-foreground'
+      >
+        {t('shell.skip')}
+      </a>
+      <div className='mx-auto flex min-h-16 max-w-[1200px] items-center justify-between gap-2 px-4 sm:gap-5 sm:px-6 lg:min-h-20 lg:px-8'>
+        <Link
+          href={ROUTES.HOME}
+          prefetch={false}
+          className='flex min-w-0 items-center gap-2 rounded-sm py-2 font-serif text-lg leading-tight font-semibold tracking-tight sm:gap-3 sm:text-xl'
         >
-          {links.map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              prefetch={false}
-              className='rounded-sm px-2 py-1.5 text-sm font-medium hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring'
-            >
-              {label}
-            </Link>
-          ))}
-          {showTravelRefresh && <TravelRefreshButton />}
-        </nav>
-        <div className='col-start-2 row-start-1 flex items-center gap-2 lg:col-start-3'>
-          <LanguageSwitcher />
-          <ThemeSwitcher />
-        </div>
+          <Image src='/icon.svg' alt='' width={38} height={38} className='size-8 shrink-0 sm:size-10' />
+          <span>{t('appName')}</span>
+        </Link>
+        <HeaderNavigation showTravelRefresh={showTravelRefresh} />
       </div>
     </header>
   );

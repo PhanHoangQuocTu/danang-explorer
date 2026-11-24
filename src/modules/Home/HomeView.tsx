@@ -1,4 +1,12 @@
-import { ArrowRightIcon } from 'lucide-react';
+import {
+  ArrowRightIcon,
+  ArrowUpRightIcon,
+  BedDoubleIcon,
+  CoffeeIcon,
+  MountainIcon,
+  TicketIcon,
+  UtensilsIcon,
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
@@ -11,25 +19,58 @@ import { SearchField } from '../Travel/SearchField';
 import { TravelState } from '../Travel/TravelState';
 import type { TravelViewProps } from '../Travel/type';
 
+const CATEGORY_ICONS = {
+  'sightseeing-nature': MountainIcon,
+  'food-dining': UtensilsIcon,
+  'cafe-checkin': CoffeeIcon,
+  entertainment: TicketIcon,
+  accommodation: BedDoubleIcon,
+};
+
+const textLink =
+  'inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring';
+
 export const HomeView = ({ t, locale, dataset }: TravelViewProps & { dataset: ITravelDataset | null }) => (
-  <div className='space-y-12 pb-6 sm:space-y-16'>
-    <section className='border-b pt-5 pb-9 sm:pt-9 sm:pb-12'>
-      <h1 className='max-w-3xl font-serif text-5xl leading-[1.08] tracking-tight text-balance sm:text-6xl lg:text-7xl'>
-        {t('home.title')}
-      </h1>
-      <p className='mt-5 max-w-xl text-pretty text-muted-foreground sm:text-lg'>{t('home.description')}</p>
-      <form
-        action={getPathname({ locale, href: ROUTES.EXPLORE })}
-        method='get'
-        role='search'
-        className='mt-7 flex max-w-xl flex-wrap items-center gap-2'
+  <div className='space-y-12 pb-8 sm:space-y-16'>
+    <section className='relative isolate overflow-hidden rounded-2xl bg-secondary text-secondary-foreground lg:grid lg:grid-cols-[1.45fr_1fr]'>
+      <div className='relative z-10 px-5 py-9 sm:px-9 sm:py-12 lg:py-16 xl:px-12'>
+        <h1 className='max-w-[11ch] font-serif text-[clamp(3.25rem,7vw,6rem)] leading-[1.02] tracking-[-0.035em] text-balance'>
+          {t('home.title')}
+        </h1>
+        <p className='mt-5 max-w-[45ch] leading-relaxed text-pretty sm:text-lg'>{t('home.description')}</p>
+        <form
+          action={getPathname({ locale, href: ROUTES.EXPLORE })}
+          method='get'
+          role='search'
+          className='mt-7 flex max-w-xl flex-wrap gap-2'
+        >
+          <SearchField t={t} />
+          <Button type='submit' className='h-12 px-5'>
+            {t('search.submit')} <ArrowRightIcon aria-hidden='true' />
+          </Button>
+        </form>
+      </div>
+      <svg
+        aria-hidden='true'
+        focusable='false'
+        viewBox='0 0 480 380'
+        preserveAspectRatio='xMidYMid slice'
+        className='block h-24 w-full text-primary sm:h-36 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-[39%]'
       >
-        <SearchField t={t} />
-        <Button type='submit' className='h-11'>
-          {t('search.submit')}
-          <ArrowRightIcon aria-hidden='true' />
-        </Button>
-      </form>
+        <rect width='480' height='380' fill='currentColor' />
+        <circle cx='300' cy='152' r='80' fill='var(--coral)' />
+        <path d='M0 254 Q98 191 194 226 T390 233 T550 219 V395 H0Z' fill='var(--secondary)' />
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((line) => (
+          <path
+            key={line}
+            d='M-45 277 Q90 187 201 238 T420 237 T550 225'
+            transform={`translate(0 ${line * 16})`}
+            fill='none'
+            stroke='currentColor'
+            strokeWidth={line === 0 ? 3 : 1.5}
+          />
+        ))}
+      </svg>
     </section>
     {dataset ? <HomeDiscovery t={t} locale={locale} dataset={dataset} /> : <TravelState t={t} state='error' />}
   </div>
@@ -38,83 +79,118 @@ export const HomeView = ({ t, locale, dataset }: TravelViewProps & { dataset: IT
 const HomeDiscovery = ({ t, locale, dataset }: TravelViewProps & { dataset: ITravelDataset }) => {
   const areas = getCanonicalAreas(dataset.areas);
   const counts = getListingCounts(dataset.listings);
-  const number = new Intl.NumberFormat(locale);
   const editorial = dataset.editorial.topPicks.slice(0, 3);
-  const groups = [
-    {
-      title: t('home.categories'),
-      key: 'category',
-      rows: MAIN_CATEGORIES.map((id) => ({
-        id,
-        name: t(`categories.${id}`),
-        count: counts.categories.get(id) ?? 0,
-        href: exploreHref(new URLSearchParams({ category: id })),
-      })),
-    },
-    {
-      title: t('home.areas'),
-      key: 'area',
-      rows: areas.map(({ id, name }) => ({ id, name, count: counts.areas.get(id) ?? 0, href: areaHref(id) })),
-    },
-  ];
-
+  const number = new Intl.NumberFormat(locale);
   return (
     <>
-      <dl className='grid grid-cols-3 gap-3 rounded-xl bg-muted/50 p-4 sm:gap-8 sm:p-6'>
-        {(
-          [
-            ['home.placesTotal', dataset.listings.length],
-            ['home.categoriesTotal', MAIN_CATEGORIES.length],
-            ['home.areasTotal', areas.length],
-          ] as const
-        ).map(([label, count]) => (
-          <div key={label} className='flex min-w-0 flex-col-reverse gap-1'>
-            <dt className='text-sm text-muted-foreground'>{t(label)}</dt>
-            <dd className='text-2xl font-semibold tabular-nums sm:text-3xl'>{number.format(count)}</dd>
-          </div>
-        ))}
-      </dl>
       {dataset.listings.length === 0 && <TravelState t={t} state='empty' />}
-      <div className='grid gap-10 md:grid-cols-2 md:gap-14'>
-        {groups.map(({ title, key, rows }) => (
-          <section key={key} aria-labelledby={`home-${key}`}>
-            <h2 id={`home-${key}`} className='mb-4 font-serif text-3xl tracking-tight'>
-              {title}
-            </h2>
-            <ul className='divide-y border-y'>
-              {rows.map(({ id, name, count, href }) => (
-                <li key={id}>
-                  <Link
-                    href={href}
-                    prefetch={false}
-                    aria-label={`${name}, ${t('explore.results', { count })}`}
-                    className='flex min-h-12 items-center gap-3 rounded-sm px-2 py-2 font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring'
-                  >
-                    <span className='flex-1'>{name}</span>
-                    <span className='text-sm text-muted-foreground tabular-nums'>{number.format(count)}</span>
-                    <ArrowRightIcon aria-hidden='true' className='size-4 shrink-0 text-muted-foreground' />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
-      {editorial.length > 0 && (
-        <section aria-labelledby='home-editorial' className='border-t pt-8'>
-          <h2 id='home-editorial' className='font-serif text-3xl tracking-tight'>
-            {t('home.editorial')}
+      <section aria-labelledby='home-category'>
+        <div className='mb-5 flex flex-wrap items-center justify-between gap-x-4'>
+          <h2 id='home-category' className='font-serif text-3xl tracking-tight sm:text-4xl'>
+            {t('home.categories')}
           </h2>
-          <div className='mt-5 grid gap-4 md:grid-cols-3'>
+          <Link href={ROUTES.EXPLORE} className={textLink}>
+            {t('explore.title')} <ArrowRightIcon aria-hidden='true' className='size-4' />
+          </Link>
+        </div>
+        <ul className='grid overflow-hidden rounded-xl border bg-card sm:grid-cols-2 lg:grid-cols-5'>
+          {MAIN_CATEGORIES.map((id) => {
+            const Icon = CATEGORY_ICONS[id];
+            const label = t(`categories.${id}`);
+            const count = counts.categories.get(id) ?? 0;
+            return (
+              <li key={id} className='min-w-0 border-b last:border-b-0 sm:border-r lg:border-b-0 lg:last:border-r-0'>
+                <Link
+                  href={exploreHref(new URLSearchParams({ category: id }))}
+                  prefetch={false}
+                  aria-label={`${label}, ${t('explore.results', { count })}`}
+                  className='group flex h-full items-center gap-3 p-4 transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring lg:flex-col lg:items-start lg:gap-2 lg:p-5'
+                >
+                  <Icon
+                    aria-hidden='true'
+                    strokeWidth={1.5}
+                    className='size-6 shrink-0 text-primary lg:mb-3 lg:size-8'
+                  />
+                  <span className='font-semibold'>{label}</span>
+                  <span className='ml-auto text-sm text-muted-foreground tabular-nums lg:mt-auto lg:ml-0'>
+                    {t('explore.results', { count })}
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+      <section aria-labelledby='home-area' className='grid gap-5 border-t pt-8 lg:grid-cols-[1fr_2fr] lg:gap-12'>
+        <div>
+          <h2 id='home-area' className='font-serif text-3xl tracking-tight sm:text-4xl'>
+            {t('home.areas')}
+          </h2>
+          <Link href={ROUTES.AREAS} className={textLink}>
+            {t('home.allAreas')} <ArrowRightIcon aria-hidden='true' className='size-4' />
+          </Link>
+        </div>
+        <ul className='grid gap-x-8 sm:grid-cols-2'>
+          {areas.map(({ id, name }) => {
+            const count = counts.areas.get(id) ?? 0;
+            return (
+              <li key={id} className='border-b'>
+                <Link
+                  href={areaHref(id)}
+                  prefetch={false}
+                  aria-label={`${name}, ${t('explore.results', { count })}`}
+                  className='group flex min-h-13 items-center gap-3 rounded-sm px-1 font-medium hover:text-primary focus-visible:outline-2 focus-visible:outline-ring'
+                >
+                  <span lang='vi' className='flex-1'>
+                    {name}
+                  </span>
+                  <span className='text-sm text-muted-foreground tabular-nums'>{number.format(count)}</span>
+                  <ArrowUpRightIcon aria-hidden='true' className='size-4 text-primary' />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+      {editorial.length > 0 && (
+        <section aria-labelledby='home-editorial' className='rounded-xl bg-secondary px-5 py-7 sm:p-9'>
+          <div className='flex flex-wrap items-center justify-between gap-x-4'>
+            <h2 id='home-editorial' className='font-serif text-3xl tracking-tight sm:text-4xl'>
+              {t('home.editorial')}
+            </h2>
+            <Link href={ROUTES.TRIP_IDEAS} className={textLink}>
+              {t('tripIdeas.title')} <ArrowRightIcon aria-hidden='true' className='size-4' />
+            </Link>
+          </div>
+          <div className='mt-5 grid gap-6 md:grid-cols-3'>
             {editorial.map(({ title, content }, index) => (
-              <article key={`${title}-${index}`} lang='vi' className='min-w-0 rounded-xl border bg-muted/30 p-5'>
-                <h3 className='font-semibold wrap-anywhere'>{title}</h3>
-                <p className='mt-2 text-sm wrap-anywhere whitespace-pre-wrap text-muted-foreground'>{content}</p>
+              <article key={`${title}-${index}`} lang='vi' className='min-w-0 border-t border-primary/25 pt-4'>
+                <h3 className='font-serif text-xl leading-snug font-semibold wrap-anywhere'>{title}</h3>
+                <p className='mt-2 text-sm leading-relaxed wrap-anywhere whitespace-pre-wrap'>{content}</p>
               </article>
             ))}
           </div>
         </section>
       )}
+      <div className='flex flex-wrap items-center justify-between gap-4 border-y py-4'>
+        <dl className='flex flex-wrap gap-x-6 gap-y-2'>
+          {(
+            [
+              ['home.placesTotal', dataset.listings.length],
+              ['home.categoriesTotal', MAIN_CATEGORIES.length],
+              ['home.areasTotal', areas.length],
+            ] as const
+          ).map(([label, count]) => (
+            <div key={label} className='flex flex-row-reverse items-baseline gap-1.5'>
+              <dt className='text-sm text-muted-foreground'>{t(label)}</dt>
+              <dd className='font-semibold tabular-nums'>{number.format(count)}</dd>
+            </div>
+          ))}
+        </dl>
+        <Link href={ROUTES.INSIGHTS} className={textLink}>
+          {t('insights.nav')} <ArrowRightIcon aria-hidden='true' className='size-4' />
+        </Link>
+      </div>
     </>
   );
 };

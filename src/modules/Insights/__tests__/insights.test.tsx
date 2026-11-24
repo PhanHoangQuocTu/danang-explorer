@@ -4,7 +4,6 @@ import type { ComponentProps } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { generateMetadata } from '@/app/[locale]/insights/page';
-import sitemap from '@/app/sitemap';
 import { messages } from '@/messages';
 import type { Translator } from '@/types/translation';
 
@@ -148,14 +147,13 @@ describe('Public Travel Insights', () => {
     expect(screen.queryByText(/private/)).not.toBeInTheDocument();
   });
 
-  it.each(['vi', 'en'] as const)('registers localized canonical and sitemap metadata in %s', async (locale) => {
+  it.each(['vi', 'en'] as const)('registers localized canonical metadata in %s', async (locale) => {
     const prefix = locale === 'vi' ? '' : '/en';
     const meta = await generateMetadata({ params: Promise.resolve({ locale }) });
     expect(meta.title).toBe(translator(locale)('insights.title'));
     expect(new URL(String(meta.alternates?.canonical)).pathname).toBe(`${prefix}/insights`);
     expect(new URL(String(meta.alternates?.languages?.vi)).pathname).toBe('/insights');
     expect(new URL(String(meta.alternates?.languages?.en)).pathname).toBe('/en/insights');
-    expect(sitemap().map(({ url }) => new URL(url).pathname)).toContain(`${prefix}/insights`);
     expect(loadTravelDataset).not.toHaveBeenCalled();
   });
 });

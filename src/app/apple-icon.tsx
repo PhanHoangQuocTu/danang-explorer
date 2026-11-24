@@ -1,26 +1,10 @@
-import { ImageResponse } from 'next/og';
-import { siteConfig } from '@/config/site';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 export const size = { width: 180, height: 180 };
 export const contentType = 'image/png';
 
-export default function AppleIcon() {
-  return new ImageResponse(
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#0a0a0a',
-        color: '#fafafa',
-        fontSize: 110,
-        fontWeight: 700,
-      }}
-    >
-      {siteConfig.mark}
-    </div>,
-    size
-  );
+export default async function AppleIcon() {
+  const icon = await readFile(join(process.cwd(), 'src/assets/brand/apple-icon.png'));
+  return new Response(new Uint8Array(icon), { headers: { 'Content-Type': contentType } });
 }
