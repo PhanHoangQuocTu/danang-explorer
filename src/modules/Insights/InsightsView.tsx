@@ -64,7 +64,7 @@ export const InsightsView = ({ t, locale, metrics }: InsightsViewProps) => {
             ).map(([key, value]) => (
               <div key={key} className='min-w-0 space-y-1'>
                 <dt className='text-sm text-muted-foreground'>{t(`insights.overview.${key}`)}</dt>
-                <dd className='font-serif text-3xl tracking-tight tabular-nums sm:text-4xl'>{value}</dd>
+                <dd className='text-3xl font-semibold tracking-tight tabular-nums sm:text-4xl'>{value}</dd>
                 {key === 'coverage' && (
                   <dd className='text-xs text-muted-foreground'>
                     {t('insights.coverageDetail', { rated: overview.rated, total: overview.total })}
@@ -86,7 +86,7 @@ export const InsightsView = ({ t, locale, metrics }: InsightsViewProps) => {
                   aria-describedby={descriptionId}
                   className='min-w-0 space-y-4 border-t border-ocean/50 pt-5'
                 >
-                  <h2 id={titleId} className='font-serif text-3xl tracking-tight text-ocean'>
+                  <h2 id={titleId} className='text-3xl font-semibold tracking-tight text-ocean'>
                     {t(`insights.distributions.${key}.title`)}
                   </h2>
                   <p id={descriptionId} className='text-sm text-muted-foreground'>
@@ -142,7 +142,7 @@ export const InsightsView = ({ t, locale, metrics }: InsightsViewProps) => {
           </div>
 
           <section aria-labelledby='insights-top-title' className='space-y-3'>
-            <h2 id='insights-top-title' className='font-serif text-3xl tracking-tight'>
+            <h2 id='insights-top-title' className='text-3xl font-semibold tracking-tight'>
               {t('insights.top.title')}
             </h2>
             <p className='max-w-prose text-sm text-muted-foreground'>{t('insights.top.description')}</p>

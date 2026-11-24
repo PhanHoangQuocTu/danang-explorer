@@ -16,6 +16,7 @@ import type { ITravelDataset } from '@/lib/travel-data/type';
 import { getCanonicalAreas, getListingCounts, MAIN_CATEGORIES } from '../Travel/catalog';
 import { areaHref, exploreHref } from '../Travel/navigation';
 import { SearchField } from '../Travel/SearchField';
+import { TopPicksContent } from '../Travel/TopPicksContent';
 import { TravelState } from '../Travel/TravelState';
 import type { TravelViewProps } from '../Travel/type';
 
@@ -34,7 +35,7 @@ export const HomeView = ({ t, locale, dataset }: TravelViewProps & { dataset: IT
   <div className='space-y-12 pb-8 sm:space-y-16'>
     <section className='relative isolate overflow-hidden rounded-2xl bg-secondary text-secondary-foreground lg:grid lg:grid-cols-[1.45fr_1fr]'>
       <div className='relative z-10 px-5 py-9 sm:px-9 sm:py-12 lg:py-16 xl:px-12'>
-        <h1 className='max-w-[11ch] font-serif text-[clamp(3.25rem,7vw,6rem)] leading-[1.02] tracking-[-0.035em] text-balance'>
+        <h1 className='max-w-[11ch] text-[clamp(3.25rem,7vw,6rem)] leading-[1.08] font-semibold tracking-[-0.035em] text-balance'>
           {t('home.title')}
         </h1>
         <p className='mt-5 max-w-[45ch] leading-relaxed text-pretty sm:text-lg'>{t('home.description')}</p>
@@ -86,7 +87,7 @@ const HomeDiscovery = ({ t, locale, dataset }: TravelViewProps & { dataset: ITra
       {dataset.listings.length === 0 && <TravelState t={t} state='empty' />}
       <section aria-labelledby='home-category'>
         <div className='mb-5 flex flex-wrap items-center justify-between gap-x-4'>
-          <h2 id='home-category' className='font-serif text-3xl tracking-tight sm:text-4xl'>
+          <h2 id='home-category' className='text-3xl font-semibold tracking-tight sm:text-4xl'>
             {t('home.categories')}
           </h2>
           <Link href={ROUTES.EXPLORE} className={textLink}>
@@ -123,7 +124,7 @@ const HomeDiscovery = ({ t, locale, dataset }: TravelViewProps & { dataset: ITra
       </section>
       <section aria-labelledby='home-area' className='grid gap-5 border-t pt-8 lg:grid-cols-[1fr_2fr] lg:gap-12'>
         <div>
-          <h2 id='home-area' className='font-serif text-3xl tracking-tight sm:text-4xl'>
+          <h2 id='home-area' className='text-3xl font-semibold tracking-tight sm:text-4xl'>
             {t('home.areas')}
           </h2>
           <Link href={ROUTES.AREAS} className={textLink}>
@@ -155,18 +156,22 @@ const HomeDiscovery = ({ t, locale, dataset }: TravelViewProps & { dataset: ITra
       {editorial.length > 0 && (
         <section aria-labelledby='home-editorial' className='rounded-xl bg-secondary px-5 py-7 sm:p-9'>
           <div className='flex flex-wrap items-center justify-between gap-x-4'>
-            <h2 id='home-editorial' className='font-serif text-3xl tracking-tight sm:text-4xl'>
+            <h2 id='home-editorial' className='text-3xl font-semibold tracking-tight sm:text-4xl'>
               {t('home.editorial')}
             </h2>
             <Link href={ROUTES.TRIP_IDEAS} className={textLink}>
               {t('tripIdeas.title')} <ArrowRightIcon aria-hidden='true' className='size-4' />
             </Link>
           </div>
-          <div className='mt-5 grid gap-6 md:grid-cols-3'>
+          <div className='mt-5 grid gap-5 xl:grid-cols-[repeat(auto-fit,minmax(min(100%,19rem),1fr))] xl:gap-8'>
             {editorial.map(({ title, content }, index) => (
-              <article key={`${title}-${index}`} lang='vi' className='min-w-0 border-t border-primary/25 pt-4'>
-                <h3 className='font-serif text-xl leading-snug font-semibold wrap-anywhere'>{title}</h3>
-                <p className='mt-2 text-sm leading-relaxed wrap-anywhere whitespace-pre-wrap'>{content}</p>
+              <article
+                key={`${title}-${index}`}
+                lang='vi'
+                className='min-w-0 space-y-3 border-t border-primary/25 pt-4 sm:grid sm:grid-cols-[minmax(9rem,1fr)_minmax(0,2fr)] sm:gap-5 sm:space-y-0 xl:block xl:space-y-3'
+              >
+                <h3 className='text-lg leading-snug font-semibold wrap-anywhere whitespace-pre-wrap'>{title}</h3>
+                <TopPicksContent content={content} />
               </article>
             ))}
           </div>

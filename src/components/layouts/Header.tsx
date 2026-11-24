@@ -21,7 +21,7 @@ export const Header = async ({ showTravelRefresh = false }: { showTravelRefresh?
         <Link
           href={ROUTES.HOME}
           prefetch={false}
-          className='flex min-w-0 items-center gap-2 rounded-sm py-2 font-serif text-lg leading-tight font-semibold tracking-tight sm:gap-3 sm:text-xl'
+          className='flex min-w-0 items-center gap-2 rounded-sm py-2 text-lg leading-tight font-semibold tracking-tight sm:gap-3 sm:text-xl'
         >
           <Image src='/icon.svg' alt='' width={38} height={38} className='size-8 shrink-0 sm:size-10' />
           <span>{t('appName')}</span>

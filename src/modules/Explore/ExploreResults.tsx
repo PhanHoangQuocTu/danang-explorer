@@ -110,7 +110,7 @@ export const ExploreResults = ({ t, locale, listings, view }: ExploreResultsProp
           >
             <div className='min-w-0 space-y-2'>
               <p className='text-xs font-medium text-muted-foreground'>{t(`categories.${listing.mainCategory}`)}</p>
-              <h3 className='font-serif text-2xl leading-tight tracking-tight wrap-anywhere text-ocean'>
+              <h3 className='text-2xl leading-tight font-semibold tracking-tight wrap-anywhere text-ocean'>
                 <ListingNameLink id={listing.id} name={listing.name} />
               </h3>
               {(listing.areaName || listing.address) && (

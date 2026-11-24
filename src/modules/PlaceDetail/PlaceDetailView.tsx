@@ -32,7 +32,7 @@ const Facts = ({ entries }: { entries: readonly (readonly [string, string])[] })
 const TextSection = ({ id, title, value }: { id: string; title: string; value: string | null }) =>
   value ? (
     <section aria-labelledby={id} className='space-y-3 border-t pt-6'>
-      <h2 id={id} className='font-serif text-3xl tracking-tight text-ocean'>
+      <h2 id={id} className='text-3xl font-semibold tracking-tight text-ocean'>
         {title}
       </h2>
       <p lang='vi' className={cn(sourceText, 'max-w-[68ch] leading-7')}>
@@ -120,7 +120,7 @@ export const PlaceDetailView = ({ t, locale, listing }: TravelViewProps & { list
             aria-labelledby='place-facts'
             className='min-w-0 space-y-4 self-start rounded-xl bg-card p-5 sm:p-7 lg:col-start-2 lg:row-start-1'
           >
-            <h2 id='place-facts' className='font-serif text-3xl tracking-tight text-ocean'>
+            <h2 id='place-facts' className='text-3xl font-semibold tracking-tight text-ocean'>
               {t('detail.facts')}
             </h2>
             <ListingMapsLink listing={listing} t={t} prominent />
@@ -132,7 +132,7 @@ export const PlaceDetailView = ({ t, locale, listing }: TravelViewProps & { list
           <TextSection id='place-notes' title={t('detail.notes')} value={listing.notesText} />
           {(profileFacts.length > 0 || listing.visitProfileRaw) && (
             <section aria-labelledby='place-profile' className='space-y-4 border-t pt-6'>
-              <h2 id='place-profile' className='font-serif text-3xl tracking-tight text-ocean'>
+              <h2 id='place-profile' className='text-3xl font-semibold tracking-tight text-ocean'>
                 {t('detail.profile')}
               </h2>
               {profileFacts.length > 0 ? (

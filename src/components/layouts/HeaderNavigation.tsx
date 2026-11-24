@@ -59,7 +59,7 @@ export const HeaderNavigation = ({ showTravelRefresh = false }: { showTravelRefr
             className='w-[min(22rem,90vw)] gap-0 overflow-y-auto p-5'
           >
             <div className='flex items-center justify-between gap-4 border-b pb-4'>
-              <SheetTitle className='font-serif text-2xl'>{t('shell.menu')}</SheetTitle>
+              <SheetTitle className='text-2xl'>{t('shell.menu')}</SheetTitle>
               <SheetClose asChild>
                 <Button type='button' variant='ghost' size='icon' className='size-11' aria-label={t('shell.closeMenu')}>
                   <XIcon aria-hidden='true' />

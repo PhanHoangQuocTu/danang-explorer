@@ -47,7 +47,9 @@ describe('Home and Explore', () => {
     ['vi', 'Khám phá Đà Nẵng', '/explore'],
     ['en', 'Discover Đà Nẵng', '/en/explore'],
   ] as const)('renders Home in %s with localized search and original editorial text', async (locale, title, action) => {
-    mockDataset();
+    const picks = { title: 'Gợi ý cuối tuần', content: 'Bãi biển (miễn phí)  •  Quán Đỗ (chưa xác minh)' };
+    const editorial = { ...travelFixture.editorial, topPicks: [...travelFixture.editorial.topPicks, picks] };
+    mockDataset({ ...travelFixture, editorial });
     const t = translator(locale);
     render(await HomeContent({ locale, t }));
     expect(screen.getByRole('heading', { level: 1, name: title })).toBeVisible();
@@ -63,6 +65,10 @@ describe('Home and Explore', () => {
       screen.getByRole('link', { name: `${t('categories.food-dining')}, ${t('explore.results', { count: 1 })}` })
     ).toHaveAttribute('href', '/explore?category=food-dining');
     expect(screen.getByText('Thử món địa phương vào buổi tối.')).toBeVisible();
+    const preview = screen.getByRole('region', { name: t('home.editorial') });
+    const previewList = within(preview).getByRole('list');
+    expect(within(previewList).getAllByRole('listitem')).toHaveLength(2);
+    expect(previewList.textContent).toBe(picks.content);
     expect(screen.queryByText('999')).not.toBeInTheDocument();
     expect(loadTravelDataset).toHaveBeenCalledTimes(1);
   });

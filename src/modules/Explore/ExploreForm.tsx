@@ -61,7 +61,7 @@ export const MobileFilterSheet = ({
         className='max-h-[90dvh] gap-0 overflow-y-auto overscroll-contain rounded-t-2xl px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]'
       >
         <div className='sticky top-0 z-10 flex items-center justify-between gap-3 border-b bg-background py-2'>
-          <SheetTitle className='font-serif text-2xl'>{label}</SheetTitle>
+          <SheetTitle className='text-2xl'>{label}</SheetTitle>
           <SheetClose asChild>
             <Button type='button' variant='ghost' size='icon' className='size-11' aria-label={closeLabel}>
               <XIcon aria-hidden='true' />

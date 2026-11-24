@@ -1,7 +1,9 @@
 import type { ITravelDataset } from '@/lib/travel-data/type';
+import { cn } from '@/lib/utils';
 
-import { TravelState } from '../Travel/TravelState';
 import { SectionBreadcrumb } from '../Travel/SectionBreadcrumb';
+import { TopPicksContent } from '../Travel/TopPicksContent';
+import { TravelState } from '../Travel/TravelState';
 import type { TravelViewProps } from '../Travel/type';
 import { editorialSections } from './editorial';
 
@@ -16,12 +18,12 @@ export const TripIdeasView = ({ t, editorial }: TripIdeasViewProps) => (
     </header>
     {editorial ? (
       <div className='space-y-12 sm:space-y-16'>
-        <nav aria-label={t('tripIdeas.title')} className='flex flex-wrap gap-x-6 border-b'>
+        <nav aria-label={t('tripIdeas.title')} className='flex flex-wrap gap-2'>
           {editorialSections.map((section) => (
             <a
               key={section}
               href={`#${section}`}
-              className='inline-flex min-h-11 items-center text-sm font-medium text-primary underline decoration-primary/40 underline-offset-4'
+              className='inline-flex min-h-11 items-center rounded-lg border bg-card px-3 text-sm font-medium text-primary hover:bg-secondary focus-visible:outline-2 focus-visible:outline-ring'
             >
               {t(`tripIdeas.${section}`)}
             </a>
@@ -31,19 +33,34 @@ export const TripIdeasView = ({ t, editorial }: TripIdeasViewProps) => (
           <section
             key={section}
             aria-labelledby={section}
-            className='grid gap-4 md:grid-cols-[minmax(10rem,1fr)_minmax(0,2fr)] md:gap-12'
+            className='space-y-4 border-t border-ocean/40 pt-5 sm:space-y-5 sm:pt-7'
           >
-            <h2
-              id={section}
-              className='self-start font-serif text-3xl tracking-tight text-ocean sm:text-4xl md:sticky md:top-24'
-            >
+            <h2 id={section} className='scroll-mt-24 text-3xl font-semibold tracking-tight text-ocean sm:text-4xl'>
               {t(`tripIdeas.${section}`)}
             </h2>
-            <div className='min-w-0 divide-y border-t border-ocean/30'>
+            <div
+              className={cn(
+                'min-w-0',
+                section === 'topPicks' ? 'grid gap-4 lg:grid-cols-2' : 'max-w-[58rem] divide-y border-y'
+              )}
+            >
               {editorial[section].map(({ title, content }, index) => (
-                <article key={`${index}-${title}`} lang='vi' className='space-y-3 py-7'>
-                  <h3 className='text-xl leading-snug font-medium wrap-anywhere whitespace-pre-wrap'>{title}</h3>
-                  <p className='max-w-[68ch] leading-7 wrap-anywhere whitespace-pre-wrap'>{content}</p>
+                <article
+                  key={`${index}-${title}`}
+                  lang='vi'
+                  className={cn(
+                    'min-w-0',
+                    section === 'topPicks'
+                      ? 'space-y-3 rounded-xl border bg-card px-4 py-5 text-card-foreground sm:p-6'
+                      : 'grid gap-2 py-5 md:grid-cols-[minmax(0,1fr)_minmax(0,2.5fr)] md:gap-6'
+                  )}
+                >
+                  <h3 className='text-lg leading-snug font-semibold wrap-anywhere whitespace-pre-wrap'>{title}</h3>
+                  {section === 'topPicks' ? (
+                    <TopPicksContent content={content} />
+                  ) : (
+                    <p className='max-w-[68ch] leading-relaxed wrap-anywhere whitespace-pre-wrap'>{content}</p>
+                  )}
                 </article>
               ))}
             </div>

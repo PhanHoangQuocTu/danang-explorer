@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { siteConfig } from '@/config/site';
 import { DEFAULT_LOCALE } from '@/i18n/routing';
 import common from '@/messages/vi/common.json';
+import '../styles/globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.appUrl),
@@ -18,7 +19,6 @@ export default function RootNotFound() {
         style={{
           background: '#F8F7F2',
           color: '#123B4A',
-          fontFamily: 'system-ui, sans-serif',
           display: 'grid',
           placeItems: 'center',
           minHeight: '100dvh',

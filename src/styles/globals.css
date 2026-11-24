@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "Nunito";
+  src: url("../assets/fonts/Nunito-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 200 1000;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @media (prefers-reduced-motion: reduce) {
@@ -90,8 +98,8 @@
   --color-ocean: var(--ocean);
   --color-sand: var(--sand);
   --color-coral: var(--coral);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Nunito", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono, ui-monospace), monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -135,7 +143,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground;
   }
 
   button:not(:disabled),
@@ -160,9 +168,9 @@
 
 @layer components {
   .guide-heading {
-    font-family: var(--font-serif);
     font-size: clamp(2.6rem, 6vw, 5rem);
-    line-height: 1.06;
+    font-weight: 650;
+    line-height: 1.12;
     letter-spacing: -0.035em;
     color: var(--ocean);
     text-wrap: balance;

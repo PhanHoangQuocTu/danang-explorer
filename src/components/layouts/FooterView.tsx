@@ -13,7 +13,7 @@ export const FooterView = ({ t, travel }: { t: Translator<'common'>; travel: Tra
     <footer className='bg-[#123B4A] text-[#F8F7F2] dark:bg-card dark:text-foreground [&_:focus-visible]:outline-current'>
       <div className='mx-auto grid max-w-[1200px] gap-8 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.45fr_0.8fr_1fr] lg:gap-14 lg:px-8 lg:py-14'>
         <div className='space-y-3 sm:col-span-2 lg:col-span-1'>
-          <Link href={ROUTES.HOME} prefetch={false} className='inline-flex items-center gap-3 font-serif text-2xl'>
+          <Link href={ROUTES.HOME} prefetch={false} className='inline-flex items-center gap-3 text-2xl font-semibold'>
             <Image src='/icon.svg' alt='' width={40} height={40} />
             {t('appName')}
           </Link>
@@ -41,7 +41,7 @@ export const FooterView = ({ t, travel }: { t: Translator<'common'>; travel: Tra
           <h2 id='footer-owner' className='mb-2 font-semibold'>
             {t('shell.owner')}
           </h2>
-          <p lang='vi' className='mb-2 font-serif text-xl'>
+          <p lang='vi' className='mb-2 text-xl font-semibold'>
             {owner.name}
           </p>
           {owner.email && (

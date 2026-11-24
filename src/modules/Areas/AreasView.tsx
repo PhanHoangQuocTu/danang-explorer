@@ -40,7 +40,7 @@ export const AreasView = (props: AreasViewProps) => {
                   className='group flex h-full items-center gap-4 border-b py-5 hover:text-primary sm:py-7'
                 >
                   <span className='min-w-0 flex-1'>
-                    <span lang='vi' className='block font-serif text-3xl tracking-tight wrap-anywhere sm:text-4xl'>
+                    <span lang='vi' className='block text-3xl font-semibold tracking-tight wrap-anywhere sm:text-4xl'>
                       {areaName}
                     </span>
                     <span className='mt-1 block text-sm text-muted-foreground tabular-nums'>
@@ -96,7 +96,7 @@ export const AreasView = (props: AreasViewProps) => {
       </header>
       <section aria-labelledby='area-listings' className='space-y-4'>
         <div className='flex flex-wrap items-center justify-between gap-3'>
-          <h2 id='area-listings' className='font-serif text-3xl text-ocean'>
+          <h2 id='area-listings' className='text-3xl font-semibold text-ocean'>
             {t('explore.results', { count: listings.length })}
           </h2>
           <Button asChild variant='outline'>

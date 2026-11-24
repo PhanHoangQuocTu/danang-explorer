@@ -125,16 +125,23 @@ describe('Areas and Trip Ideas routes', () => {
   it.each(['vi', 'en'] as const)(
     'renders all 5/11/3/2 entries verbatim in %s without inferred links',
     async (locale) => {
+      const topPicks = [...phaseSixFixture.editorial.topPicks];
+      const picks = ['  Bãi biển (miễn phí)', 'Quán <b>Đỗ</b> (4.5★, chưa xác minh)', 'Café & bánh (50.000đ)  '];
+      topPicks[0] = { ...topPicks[0], content: picks.join('  •  ') };
+      const editorial = { ...phaseSixFixture.editorial, topPicks };
+      mockDataset({ ...phaseSixFixture, editorial });
       render(await TripIdeasPage(params(locale)));
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(messages[locale].travel.tripIdeas.title);
       const sections = screen.getAllByRole('region');
       expect(sections.map((section) => within(section).getAllByRole('article').length)).toEqual([5, 11, 3, 2]);
-      for (const [index, entries] of Object.values(phaseSixFixture.editorial).entries()) {
+      const firstGroup = within(sections[1]).getAllByRole('article')[0];
+      expect(within(firstGroup).getAllByRole('listitem')).toHaveLength(picks.length);
+      for (const [index, entries] of Object.values(editorial).entries()) {
         const articles = within(sections[index]).getAllByRole('article');
         for (const [entryIndex, entry] of entries.entries()) {
           const article = articles[entryIndex];
           expect(article.querySelector('h3')?.textContent).toBe(entry.title);
-          expect(article.querySelector('p')?.textContent).toBe(entry.content);
+          expect(article.querySelector('p, ul')?.textContent).toBe(entry.content);
           expect(article.querySelector('b, a')).toBeNull();
           expect(article).toHaveAttribute('lang', 'vi');
         }

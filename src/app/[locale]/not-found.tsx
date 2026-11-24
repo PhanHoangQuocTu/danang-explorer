@@ -18,7 +18,7 @@ export default async function NotFound() {
   return (
     <MainLayout>
       <section className='mx-auto my-12 flex max-w-3xl flex-col items-start gap-5 rounded-xl bg-secondary p-8 sm:p-14'>
-        <p className='font-serif text-6xl text-primary'>404</p>
+        <p className='text-6xl font-semibold text-primary'>404</p>
         <h1 className='guide-heading'>{t('notFound.title')}</h1>
         <p className='text-sm text-muted-foreground'>{t('notFound.description')}</p>
         <Button asChild>

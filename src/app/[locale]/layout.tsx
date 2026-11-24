@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
 import { JsonLd } from '@/components/seo/JsonLd';
-import { fontMono, fontSans } from '@/config/fonts';
+import { fontMono } from '@/config/fonts';
 import { siteConfig } from '@/config/site';
 import { useTranslationsServer } from '@/hooks/useTranslationsServer';
 import { routing, toLocale } from '@/i18n/routing';
@@ -57,7 +57,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<{ l
           {themeInitScript}
         </Script>
       </head>
-      <body className={cn('bg-background font-sans antialiased', fontSans.variable, fontMono.variable)}>
+      <body className={cn('antialiased', fontMono.variable)}>
         <JsonLd
           data={webSiteJsonLd({ locale: toLocale(locale), name: t('siteName'), description: t('description') })}
         />

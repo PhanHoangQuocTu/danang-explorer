@@ -69,7 +69,7 @@ const ExploreDiscovery = ({
           <h2
             id='explore-results'
             aria-live='polite'
-            className='font-serif text-3xl tracking-tight text-ocean tabular-nums'
+            className='text-3xl font-semibold tracking-tight text-ocean tabular-nums'
           >
             {t('explore.results', { count: results.total })}
           </h2>
