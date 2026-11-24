@@ -47,6 +47,7 @@
     "name": "Địa điểm",
     "price": "Tầm giá",
     "map": "Google Maps",
+    "tableScrollHint": "Cuộn ngang để xem thêm cột.",
     "mapFor": "Google Maps của {name}",
     "empty": "Không có địa điểm phù hợp với bộ lọc.",
     "emptyHint": "Xóa bộ lọc để xem tất cả địa điểm.",

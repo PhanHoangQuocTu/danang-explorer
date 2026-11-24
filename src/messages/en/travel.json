@@ -47,6 +47,7 @@
     "name": "Place",
     "price": "Price",
     "map": "Google Maps",
+    "tableScrollHint": "Scroll sideways to see more columns.",
     "mapFor": "Google Maps for {name}",
     "empty": "No places match your filters.",
     "emptyHint": "Clear your criteria to see all places.",
